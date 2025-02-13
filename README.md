@@ -1,50 +1,11 @@
-# React + TypeScript + Vite
+# jellybean 🍬🍭🍫
 
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
+Ever found yourself lying awake at night, plagued by the existential dread of forgetting which jellybean flavors you've tried? No? Well, too bad—I built this app anyway! With _jellybean_, you can perform CRUD operations on jellybean flavors like a pro. Whether you're a casual bean muncher or an elite-level connoisseur, _jellybean_ will be the best jellybean flavor tracker you've ever tried.
 
-Currently, two official plugins are available:
+## Back End
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react/README.md) uses [Babel](https://babeljs.io/) for Fast Refresh
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react-swc) uses [SWC](https://swc.rs/) for Fast Refresh
+The back end of _jellybean_ is built with [supabase](https://supabase.com).
 
-## Expanding the ESLint configuration
+## Front End
 
-If you are developing a production application, we recommend updating the configuration to enable type aware lint rules:
-
-- Configure the top-level `parserOptions` property like this:
-
-```js
-export default tseslint.config({
-  languageOptions: {
-    // other options...
-    parserOptions: {
-      project: ['./tsconfig.node.json', './tsconfig.app.json'],
-      tsconfigRootDir: import.meta.dirname,
-    },
-  },
-})
-```
-
-- Replace `tseslint.configs.recommended` to `tseslint.configs.recommendedTypeChecked` or `tseslint.configs.strictTypeChecked`
-- Optionally add `...tseslint.configs.stylisticTypeChecked`
-- Install [eslint-plugin-react](https://github.com/jsx-eslint/eslint-plugin-react) and update the config:
-
-```js
-// eslint.config.js
-import react from 'eslint-plugin-react'
-
-export default tseslint.config({
-  // Set the react version
-  settings: { react: { version: '18.3' } },
-  plugins: {
-    // Add the react plugin
-    react,
-  },
-  rules: {
-    // other rules...
-    // Enable its recommended rules
-    ...react.configs.recommended.rules,
-    ...react.configs['jsx-runtime'].rules,
-  },
-})
-```
+The front end of _jellybean_ is built in [TypeScript](https://www.typescriptlang.org) and [React](https://react.dev). It connects to the supabase backend via supabase's [JavaScript Client Library](https://supabase.com/docs/reference/javascript/introduction).
