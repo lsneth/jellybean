@@ -8,7 +8,8 @@ type Jellybean = { id: string; flavor: string }
 
 function App() {
   const [jellybeans, setJellybeans] = useState<Jellybean[]>([])
-  const [newFlavor, setNewFlavor] = useState<string>('')
+  const [newJellybeanFlavor, setNewJellybeanFlavor] = useState<string>('')
+  const [newJellybeanId, setNewJellybeanId] = useState<string>('')
 
   useEffect(() => {
     fetchJellybeans()
@@ -18,7 +19,7 @@ function App() {
     const { data, error }: { data: Jellybean[] | null; error: PostgrestError | null } = await supabase.from('jellybeans').select()
 
     if (error) {
-      console.error('Error fetching jellybeans:', error.message)
+      console.error(`Error fetching jellybeans: ${error.message}`)
       alert(`Failed to fetch jellybeans: ${error.message}`)
       return
     }
@@ -30,8 +31,20 @@ function App() {
     const { error } = await supabase.from('jellybeans').insert({ flavor })
 
     if (error) {
-      console.error('Error inserting jellybean:', error.message)
+      console.error(`Error inserting jellybean: ${error.message}`)
       alert(`Failed to insert jellybean: ${error.message}`)
+      return
+    }
+
+    fetchJellybeans()
+  }
+
+  async function updateJellybean({ flavor, id }: { flavor: string; id: string }) {
+    const { error } = await supabase.from('jellybeans').update({ flavor }).eq('id', id)
+
+    if (error) {
+      console.error(`Error updating jellybean: ${error.message}`)
+      alert(`Failed to update jellybean: ${error.message}`)
       return
     }
 
@@ -42,7 +55,7 @@ function App() {
     const { error } = await supabase.from('jellybeans').delete().eq('id', id)
 
     if (error) {
-      console.error('Error deleting jellybean:', error.message)
+      console.error(`Error deleting jellybean: ${error.message}`)
       alert(`Failed to delete jellybean: ${error.message}`)
       return
     }
@@ -54,21 +67,45 @@ function App() {
     <>
       {jellybeans.map((jellybean) => (
         <div key={jellybean.id} className="jellybean">
-          <p>{jellybean.flavor}</p>
-          <button onClick={() => deleteJellybean(jellybean.id)}>Delete</button>
+          {newJellybeanId === jellybean.id ? (
+            <form
+              onSubmit={(e: React.FormEvent) => {
+                e.preventDefault()
+                updateJellybean({ flavor: newJellybeanFlavor, id: jellybean.id })
+                setNewJellybeanFlavor('')
+                setNewJellybeanId('')
+              }}
+            >
+              <>
+                <input type="text" value={newJellybeanFlavor} onChange={(e) => setNewJellybeanFlavor(e.target.value)} placeholder={jellybean.flavor} />
+                <button type="submit">Submit Edit</button>
+              </>
+            </form>
+          ) : (
+            <>
+              <p>{jellybean.flavor}</p>
+              <button onClick={() => setNewJellybeanId(jellybean.id)}>Edit</button>
+              <button onClick={() => deleteJellybean(jellybean.id)}>Delete</button>
+            </>
+          )}
         </div>
       ))}
 
-      <form
-        onSubmit={(e: React.FormEvent) => {
-          e.preventDefault()
-          insertJellybean(newFlavor)
-          setNewFlavor('')
-        }}
-      >
-        <input type="text" value={newFlavor} onChange={(e) => setNewFlavor(e.target.value)} />
-        <button type="submit">Add New Jellybean</button>
-      </form>
+      {newJellybeanId === 'new' ? (
+        <form
+          onSubmit={(e: React.FormEvent) => {
+            e.preventDefault()
+            insertJellybean(newJellybeanFlavor)
+            setNewJellybeanFlavor('')
+            setNewJellybeanId('')
+          }}
+        >
+          <input type="text" value={newJellybeanFlavor} onChange={(e) => setNewJellybeanFlavor(e.target.value)} />
+          <button type="submit">Submit New Jellybean</button>
+        </form>
+      ) : (
+        <button onClick={() => setNewJellybeanId('new')}>Add New Jellybean</button>
+      )}
     </>
   )
 }
