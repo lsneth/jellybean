@@ -8,6 +8,7 @@ type Jellybean = { id: string; flavor: string }
 
 function App() {
   const [jellybeans, setJellybeans] = useState<Jellybean[]>([])
+  const [newFlavor, setNewFlavor] = useState<string>('')
 
   useEffect(() => {
     fetchJellybeans()
@@ -25,8 +26,8 @@ function App() {
     setJellybeans(data ?? [])
   }
 
-  async function insertJellybean() {
-    const { error } = await supabase.from('jellybeans').insert({ flavor: 'pear' })
+  async function insertJellybean(flavor: string) {
+    const { error } = await supabase.from('jellybeans').insert({ flavor })
 
     if (error) {
       console.error('Error inserting jellybean:', error.message)
@@ -57,7 +58,15 @@ function App() {
           <button onClick={() => deleteJellybean(jellybean.id)}>Delete</button>
         </div>
       ))}
-      <button onClick={insertJellybean}>Add pear jellybean</button>
+      <input type="text" value={newFlavor} onChange={(e) => setNewFlavor(e.target.value)} />
+      <button
+        onClick={() => {
+          insertJellybean(newFlavor)
+          setNewFlavor('')
+        }}
+      >
+        Add New Jellybean
+      </button>
     </>
   )
 }
