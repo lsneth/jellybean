@@ -58,15 +58,17 @@ function App() {
           <button onClick={() => deleteJellybean(jellybean.id)}>Delete</button>
         </div>
       ))}
-      <input type="text" value={newFlavor} onChange={(e) => setNewFlavor(e.target.value)} />
-      <button
-        onClick={() => {
+
+      <form
+        onSubmit={(e: React.FormEvent) => {
+          e.preventDefault()
           insertJellybean(newFlavor)
           setNewFlavor('')
         }}
       >
-        Add New Jellybean
-      </button>
+        <input type="text" value={newFlavor} onChange={(e) => setNewFlavor(e.target.value)} />
+        <button type="submit">Add New Jellybean</button>
+      </form>
     </>
   )
 }
