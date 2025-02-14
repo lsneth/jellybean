@@ -1,32 +1,52 @@
-import { useState } from "react";
-import useInsertJellybean from "../hooks/useInsertJellybean";
+import { useState } from 'react';
+import useInsertJellybean from '../hooks/useInsertJellybean';
+import IconButton from './IconButton';
+import TextInput from './TextInput';
+
+type PropTypes = {
+  fetchJellybeans: () => Promise<void>;
+  addingOrEditing: 'adding' | 'editing' | undefined;
+  setAddingOrEditing: React.Dispatch<
+    React.SetStateAction<'adding' | 'editing' | undefined>
+  >;
+};
 
 export default function NewJellybeanForm({
   fetchJellybeans,
-}: {
-  fetchJellybeans: () => Promise<void>;
-}) {
+  addingOrEditing,
+  setAddingOrEditing,
+}: PropTypes) {
   const { insertJellybean } = useInsertJellybean(fetchJellybeans);
-  const [newJellybeanId, setNewJellybeanId] = useState<string>("");
-  const [newJellybeanFlavor, setNewJellybeanFlavor] = useState<string>("");
+  const [newJellybeanFlavor, setNewJellybeanFlavor] = useState<string>('');
 
-  return newJellybeanId === "new" ? (
+  return addingOrEditing === 'adding' ? (
     <form
       onSubmit={(e: React.FormEvent) => {
         e.preventDefault();
+        if (!newJellybeanFlavor.trim()) {
+          alert('You cannot save an empty flavor.');
+          return;
+        }
         insertJellybean(newJellybeanFlavor);
-        setNewJellybeanFlavor("");
-        setNewJellybeanId("");
+        setAddingOrEditing(undefined);
+        setNewJellybeanFlavor('');
       }}
+      className="flex justify-center"
     >
-      <input
-        type="text"
+      <TextInput
         value={newJellybeanFlavor}
         onChange={(e) => setNewJellybeanFlavor(e.target.value)}
       />
-      <button type="submit">Submit New Jellybean</button>
+      <IconButton isSubmit icon="confirm" accent />
     </form>
   ) : (
-    <button onClick={() => setNewJellybeanId("new")}>Add New Jellybean</button>
+    <IconButton
+      onClick={() => {
+        setAddingOrEditing('adding');
+        setNewJellybeanFlavor('');
+      }}
+      icon="add"
+      accent
+    />
   );
 }
