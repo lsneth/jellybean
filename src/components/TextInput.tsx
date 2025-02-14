@@ -9,7 +9,7 @@ export default function TextInput({ value, onChange }: PropTypes) {
       type="text"
       value={value}
       onChange={onChange}
-      className="border border-neutral-50 rounded-lg px-3"
+      className="border border-neutral-50 rounded-lg px-3 bg-neutral-900 mr-1"
       autoFocus
     />
   );

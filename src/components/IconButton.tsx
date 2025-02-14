@@ -19,12 +19,14 @@ type PropTypes = {
     | 'ascending'
     | 'alphabetical'
     | 'chronological';
+  accent?: boolean;
 };
 
 export default function IconButton({
   onClick,
   isSubmit = false,
   icon,
+  accent = false,
 }: PropTypes) {
   let svg;
   switch (icon) {
@@ -58,7 +60,11 @@ export default function IconButton({
   return (
     <button
       onClick={onClick}
-      className="border border-neutral-50 rounded-lg p-2 m-0.5 hover:cursor-pointer hover:bg-neutral-900"
+      className={`rounded-lg p-2 m-0.5 hover:cursor-pointer drop-shadow-xl ${
+        accent
+          ? 'bg-amber-600 hover:bg-amber-700'
+          : 'border border-neutral-50 bg-neutral-900 hover:bg-neutral-700'
+      }`}
       type={isSubmit ? 'submit' : undefined}
       title={icon}
     >

@@ -14,7 +14,7 @@ export default function SortButtons({
   toggleAscending,
 }: PropTypes) {
   return (
-    <div className="w-xl mx-auto text-left mb-5">
+    <div className="w-xl mx-auto text-left mb-7">
       <IconButton
         icon={sort === 'created_time' ? 'chronological' : 'alphabetical'}
         onClick={toggleSort}

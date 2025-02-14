@@ -3,7 +3,6 @@ import useFetchJellybeans from './hooks/useFetchJellybeans';
 import { Jellybean as JellybeanType } from './types';
 import JellybeanCard from './components/JellybeanCard';
 import NewJellybeanForm from './components/NewJellybeanForm';
-import IconButton from './components/IconButton';
 import SortButtons from './components/SortButtons';
 
 function App() {
@@ -68,7 +67,7 @@ function App() {
         </div>
       </div>
 
-      <p className="mt-50 pb-10">© Lucas Nethercott. All rights reserved.</p>
+      <p className="mt-30 pb-10">© Lucas Nethercott. All rights reserved.</p>
     </div>
   );
 }
