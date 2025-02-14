@@ -1,24 +1,24 @@
-import pencil from '../assets/pencil.svg';
-import trash from '../assets/trash.svg';
-import plus from '../assets/plus.svg';
-import check from '../assets/check.svg';
-import a from '../assets/a.svg';
-import clock from '../assets/clock.svg';
-import downArrow from '../assets/down-arrow.svg';
-import upArrow from '../assets/up-arrow.svg';
+import edit from '../assets/pencil.svg';
+import remove from '../assets/trash.svg';
+import add from '../assets/plus.svg';
+import confirm from '../assets/check.svg';
+import alphabetical from '../assets/a.svg';
+import chronological from '../assets/hourglass.svg';
+import descending from '../assets/down-arrow.svg';
+import ascending from '../assets/up-arrow.svg';
 
 type PropTypes = {
   onClick?: () => void;
   isSubmit?: boolean;
   icon:
-    | 'pencil'
-    | 'trash'
-    | 'plus'
-    | 'check'
-    | 'down arrow'
-    | 'up arrow'
-    | 'a'
-    | 'clock';
+    | 'edit'
+    | 'remove'
+    | 'add'
+    | 'confirm'
+    | 'descending'
+    | 'ascending'
+    | 'alphabetical'
+    | 'chronological';
 };
 
 export default function IconButton({
@@ -28,29 +28,29 @@ export default function IconButton({
 }: PropTypes) {
   let svg;
   switch (icon) {
-    case 'pencil':
-      svg = pencil;
+    case 'edit':
+      svg = edit;
       break;
-    case 'trash':
-      svg = trash;
+    case 'remove':
+      svg = remove;
       break;
-    case 'plus':
-      svg = plus;
+    case 'add':
+      svg = add;
       break;
-    case 'check':
-      svg = check;
+    case 'confirm':
+      svg = confirm;
       break;
-    case 'a':
-      svg = a;
+    case 'alphabetical':
+      svg = alphabetical;
       break;
-    case 'clock':
-      svg = clock;
+    case 'chronological':
+      svg = chronological;
       break;
-    case 'down arrow':
-      svg = downArrow;
+    case 'descending':
+      svg = descending;
       break;
-    case 'up arrow':
-      svg = upArrow;
+    case 'ascending':
+      svg = ascending;
       break;
     default:
       break;
@@ -60,6 +60,7 @@ export default function IconButton({
       onClick={onClick}
       className="border border-neutral-50 rounded-lg p-2 m-0.5 hover:cursor-pointer hover:bg-neutral-900"
       type={isSubmit ? 'submit' : undefined}
+      title={icon}
     >
       <img src={svg} className="w-5" />
     </button>

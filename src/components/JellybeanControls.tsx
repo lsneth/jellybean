@@ -19,10 +19,10 @@ export default function JellybeanControls({
     <div className="flex justify-between items-center">
       <p>{jellybean.flavor}</p>
       <div>
-        <IconButton onClick={enderEditMode} icon="pencil" />
+        <IconButton onClick={enderEditMode} icon="edit" />
         <IconButton
           onClick={() => deleteJellybean(jellybean.id)}
-          icon="trash"
+          icon="remove"
         />
       </div>
     </div>

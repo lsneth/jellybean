@@ -16,12 +16,12 @@ export default function SortButtons({
   return (
     <div className="w-xl mx-auto text-left mb-5">
       <IconButton
-        icon={sort === 'created_time' ? 'clock' : 'a'}
+        icon={sort === 'created_time' ? 'chronological' : 'alphabetical'}
         onClick={toggleSort}
       />
 
       <IconButton
-        icon={ascending ? 'down arrow' : 'up arrow'}
+        icon={ascending ? 'descending' : 'ascending'}
         onClick={toggleAscending}
       />
     </div>

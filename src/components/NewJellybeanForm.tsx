@@ -37,7 +37,7 @@ export default function NewJellybeanForm({
         value={newJellybeanFlavor}
         onChange={(e) => setNewJellybeanFlavor(e.target.value)}
       />
-      <IconButton isSubmit icon="check" />
+      <IconButton isSubmit icon="confirm" />
     </form>
   ) : (
     <IconButton
@@ -45,7 +45,7 @@ export default function NewJellybeanForm({
         setAddingOrEditing('adding');
         setNewJellybeanFlavor('');
       }}
-      icon="plus"
+      icon="add"
     />
   );
 }
