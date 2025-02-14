@@ -3,9 +3,17 @@ import { useSupabase } from './useSupabase';
 
 type Jellybean = { id: string; flavor: string };
 
-export default function useFetchJellybeans(
-  setJellybeans: (data: Jellybean[]) => void
-) {
+type PropTypes = {
+  setJellybeans: (data: Jellybean[]) => void;
+  sort: 'flavor' | 'created_time';
+  ascending: boolean;
+};
+
+export default function useFetchJellybeans({
+  setJellybeans,
+  sort,
+  ascending,
+}: PropTypes) {
   const supabase = useSupabase();
 
   async function fetchJellybeans() {
@@ -13,7 +21,7 @@ export default function useFetchJellybeans(
       data,
       error,
     }: { data: Jellybean[] | null; error: PostgrestError | null } =
-      await supabase.from('jellybeans').select().order('flavor');
+      await supabase.from('jellybeans').select().order(sort, { ascending });
 
     if (error) {
       console.error(`Error fetching jellybeans: ${error.message}`);
