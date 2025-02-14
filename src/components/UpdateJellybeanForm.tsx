@@ -22,6 +22,11 @@ export default function UpdateJellybeanForm({
     <form
       onSubmit={(e: React.FormEvent) => {
         e.preventDefault();
+        if (!newJellybeanFlavor.trim()) {
+          alert('You cannot save an empty flavor.');
+          return;
+        }
+
         updateJellybean({ flavor: newJellybeanFlavor, id: jellybeanId });
         resetEditing();
       }}

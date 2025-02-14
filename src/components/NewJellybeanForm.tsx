@@ -5,19 +5,30 @@ import TextInput from './TextInput';
 
 type PropTypes = {
   fetchJellybeans: () => Promise<void>;
+  addingOrEditing: 'adding' | 'editing' | undefined;
+  setAddingOrEditing: React.Dispatch<
+    React.SetStateAction<'adding' | 'editing' | undefined>
+  >;
 };
 
-export default function NewJellybeanForm({ fetchJellybeans }: PropTypes) {
+export default function NewJellybeanForm({
+  fetchJellybeans,
+  addingOrEditing,
+  setAddingOrEditing,
+}: PropTypes) {
   const { insertJellybean } = useInsertJellybean(fetchJellybeans);
-  const [addingJellybean, setAddingJellybean] = useState<boolean>(false);
   const [newJellybeanFlavor, setNewJellybeanFlavor] = useState<string>('');
 
-  return addingJellybean ? (
+  return addingOrEditing === 'adding' ? (
     <form
       onSubmit={(e: React.FormEvent) => {
         e.preventDefault();
+        if (!newJellybeanFlavor.trim()) {
+          alert('You cannot save an empty flavor.');
+          return;
+        }
         insertJellybean(newJellybeanFlavor);
-        setAddingJellybean(false);
+        setAddingOrEditing(undefined);
         setNewJellybeanFlavor('');
       }}
       className="flex justify-center"
@@ -29,6 +40,12 @@ export default function NewJellybeanForm({ fetchJellybeans }: PropTypes) {
       <IconButton isSubmit icon="check" />
     </form>
   ) : (
-    <IconButton onClick={() => setAddingJellybean(true)} icon="plus" />
+    <IconButton
+      onClick={() => {
+        setAddingOrEditing('adding');
+        setNewJellybeanFlavor('');
+      }}
+      icon="plus"
+    />
   );
 }
