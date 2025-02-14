@@ -1,19 +1,19 @@
-import { useSupabase } from './useSupabase'
+import { useSupabase } from './useSupabase';
 
 export default function useInsertJellybean(fetchJellybeans: () => void) {
-  const supabase = useSupabase()
+  const supabase = useSupabase();
 
   async function insertJellybean(flavor: string) {
-    const { error } = await supabase.from('jellybeans').insert({ flavor })
+    const { error } = await supabase.from('jellybeans').insert({ flavor });
 
     if (error) {
-      console.error(`Error inserting jellybean: ${error.message}`)
-      alert(`Failed to insert jellybean: ${error.message}`)
-      return
+      console.error(`Error inserting jellybean: ${error.message}`);
+      alert(`Failed to insert jellybean: ${error.message}`);
+      return;
     }
 
-    fetchJellybeans()
+    fetchJellybeans();
   }
 
-  return { insertJellybean }
+  return { insertJellybean };
 }

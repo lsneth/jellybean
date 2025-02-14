@@ -1,1 +1,1 @@
-export type Jellybean = { id: string; flavor: string }
+export type Jellybean = { id: string; flavor: string };

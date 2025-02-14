@@ -1,32 +1,34 @@
-import { useState } from "react";
-import useInsertJellybean from "../hooks/useInsertJellybean";
+import { useState } from 'react';
+import useInsertJellybean from '../hooks/useInsertJellybean';
+import IconButton from './IconButton';
+import TextInput from './TextInput';
 
-export default function NewJellybeanForm({
-  fetchJellybeans,
-}: {
+type PropTypes = {
   fetchJellybeans: () => Promise<void>;
-}) {
-  const { insertJellybean } = useInsertJellybean(fetchJellybeans);
-  const [newJellybeanId, setNewJellybeanId] = useState<string>("");
-  const [newJellybeanFlavor, setNewJellybeanFlavor] = useState<string>("");
+};
 
-  return newJellybeanId === "new" ? (
+export default function NewJellybeanForm({ fetchJellybeans }: PropTypes) {
+  const { insertJellybean } = useInsertJellybean(fetchJellybeans);
+  const [addingJellybean, setAddingJellybean] = useState<boolean>(false);
+  const [newJellybeanFlavor, setNewJellybeanFlavor] = useState<string>('');
+
+  return addingJellybean ? (
     <form
       onSubmit={(e: React.FormEvent) => {
         e.preventDefault();
         insertJellybean(newJellybeanFlavor);
-        setNewJellybeanFlavor("");
-        setNewJellybeanId("");
+        setAddingJellybean(false);
+        setNewJellybeanFlavor('');
       }}
+      className="flex justify-center"
     >
-      <input
-        type="text"
+      <TextInput
         value={newJellybeanFlavor}
         onChange={(e) => setNewJellybeanFlavor(e.target.value)}
       />
-      <button type="submit">Submit New Jellybean</button>
+      <IconButton isSubmit icon="check" />
     </form>
   ) : (
-    <button onClick={() => setNewJellybeanId("new")}>Add New Jellybean</button>
+    <IconButton onClick={() => setAddingJellybean(true)} icon="plus" />
   );
 }

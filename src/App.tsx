@@ -1,9 +1,8 @@
-import { useEffect, useState } from "react";
-import "./app.css";
-import useFetchJellybeans from "./hooks/useFetchJellybeans";
-import { Jellybean as JellybeanType } from "./types";
-import Jellybean from "./components/Jellybean";
-import NewJellybeanForm from "./components/NewJellybeanForm";
+import { useEffect, useState } from 'react';
+import useFetchJellybeans from './hooks/useFetchJellybeans';
+import { Jellybean as JellybeanType } from './types';
+import JellybeanCard from './components/JellybeanCard';
+import NewJellybeanForm from './components/NewJellybeanForm';
 
 function App() {
   const [jellybeans, setJellybeans] = useState<JellybeanType[]>([]);
@@ -15,13 +14,26 @@ function App() {
   }, []);
 
   return (
-    <>
-      {jellybeans.map((jellybean) => (
-        <Jellybean jellybean={jellybean} fetchJellybeans={fetchJellybeans} />
-      ))}
+    <div className="text-center flex flex-col justify-between h-full">
+      <div>
+        <img src={'./logo.png'} className="max-w-56 mx-auto mt-10" />
+        <h1 className="text-center text-5xl mb-10">jellybean</h1>
+      </div>
 
-      <NewJellybeanForm fetchJellybeans={fetchJellybeans} />
-    </>
+      <div>
+        {jellybeans.map((jellybean) => (
+          <JellybeanCard
+            jellybean={jellybean}
+            fetchJellybeans={fetchJellybeans}
+            key={jellybean.id}
+          />
+        ))}
+
+        <NewJellybeanForm fetchJellybeans={fetchJellybeans} />
+      </div>
+
+      <p className="mt-50 pb-10">© Lucas Nethercott. All rights reserved.</p>
+    </div>
   );
 }
 
