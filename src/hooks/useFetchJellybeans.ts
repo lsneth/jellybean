@@ -14,7 +14,7 @@ export default function useFetchJellybeans({
   sort,
   ascending,
 }: PropTypes) {
-  const supabase = useSupabase();
+  const { supabase } = useSupabase();
 
   async function fetchJellybeans() {
     const {

@@ -1,7 +1,7 @@
 import { useSupabase } from './useSupabase';
 
 export default function useInsertJellybean(fetchJellybeans: () => void) {
-  const supabase = useSupabase();
+  const { supabase } = useSupabase();
 
   async function insertJellybean(flavor: string) {
     const { error } = await supabase.from('jellybeans').insert({ flavor });
