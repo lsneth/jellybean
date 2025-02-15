@@ -15,7 +15,7 @@ export default function Overlay({ showOverlay, closeOverlay }: PropTypes) {
     //   opaque overlay bg
     <div className="bg-neutral-800/90 absolute inset-0 z-10 flex items-center justify-center">
       {/* overlay window */}
-      <div className="bg-neutral-900 w-md z-20 rounded-lg p-4">
+      <div className="bg-neutral-900 w-md z-20 rounded-lg p-4 m-4">
         <div className="flex justify-between items-center w-full">
           <div className="w-[38px]" />
           <h2 className="text-2xl">
