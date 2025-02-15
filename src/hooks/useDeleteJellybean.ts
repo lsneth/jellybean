@@ -1,7 +1,7 @@
 import { useSupabase } from './useSupabase';
 
 export default function useDeleteJellybean(fetchJellybeans: () => void) {
-  const supabase = useSupabase();
+  const { supabase } = useSupabase();
 
   async function deleteJellybean(id: string) {
     const { error } = await supabase.from('jellybeans').delete().eq('id', id);

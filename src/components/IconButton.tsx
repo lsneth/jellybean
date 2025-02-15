@@ -6,6 +6,10 @@ import alphabetical from '../assets/a.svg';
 import chronological from '../assets/hourglass.svg';
 import descending from '../assets/down-arrow.svg';
 import ascending from '../assets/up-arrow.svg';
+import close from '../assets/x.svg';
+import logIn from '../assets/log-in.svg';
+import logOut from '../assets/log-out.svg';
+import help from '../assets/question-mark.svg';
 
 type PropTypes = {
   onClick?: () => void;
@@ -18,7 +22,12 @@ type PropTypes = {
     | 'descending'
     | 'ascending'
     | 'alphabetical'
-    | 'chronological';
+    | 'chronological'
+    | 'close'
+    | 'log in'
+    | 'log out'
+    | 'help';
+
   accent?: boolean;
 };
 
@@ -53,6 +62,18 @@ export default function IconButton({
       break;
     case 'ascending':
       svg = ascending;
+      break;
+    case 'close':
+      svg = close;
+      break;
+    case 'log in':
+      svg = logIn;
+      break;
+    case 'log out':
+      svg = logOut;
+      break;
+    case 'help':
+      svg = help;
       break;
     default:
       break;
