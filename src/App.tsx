@@ -42,13 +42,13 @@ function App() {
 
       <div className="flex justify-between w-full items-start p-5">
         {/* this empty div is for even alignment */}
-        <div className="w-[84px]" />
+        <div className="w-[124px] sm:w-[84px]" />
         <div>
           <img src={'./logo.png'} className="max-w-36 sm:max-w-56 mx-auto" />
           <h1 className="text-center text-5xl mb-10 mt-5">jellybean</h1>
         </div>
         <div className="flex flex-wrap justify-end">
-          <div className="max-[399px]:order-2">
+          <div className="max-[455px]:order-2">
             {authenticated ? (
               <IconButton icon="log out" onClick={logOutUser} />
             ) : (
@@ -58,7 +58,7 @@ function App() {
               />
             )}
           </div>
-          <div className="max-[399px]:order-1">
+          <div className="max-[455px]:order-1">
             <IconButton icon="help" onClick={() => setShowOverlay('help')} />
           </div>
         </div>

@@ -54,6 +54,7 @@ export default function AuthOverlayContent({
           value={password}
           onChange={(e) => setPassword(e.target.value)}
           type="password"
+          autofocus={false}
         />
         <div className="m-2" />
         {userHasAccount ? (

@@ -89,7 +89,7 @@ export default function IconButton({
       type={isSubmit ? 'submit' : undefined}
       title={icon}
     >
-      <img src={svg} className="w-5" />
+      <img src={svg} className="w-7 sm:w-5" />
     </button>
   );
 }
