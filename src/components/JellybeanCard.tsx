@@ -24,11 +24,7 @@ export default function JellybeanCard({
   const [editingJellybeanId, setEditingJellybeanId] = useState<string>('');
 
   return (
-    <div
-      className={`${
-        !isLast ? 'border-b' : ''
-      } border-neutral-50 p-5 max-w-xl mx-auto`}
-    >
+    <div className={`${!isLast ? 'border-b' : ''} border-neutral-50 p-5`}>
       {jellybean.id === editingJellybeanId && addingOrEditing === 'editing' ? (
         <UpdateJellybeanForm
           fetchJellybeans={fetchJellybeans}

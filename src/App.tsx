@@ -40,24 +40,31 @@ function App() {
         <></>
       )}
 
-      <div className="flex justify-between w-full p-5 items-start">
+      <div className="flex justify-between w-full items-start p-5">
         {/* this empty div is for even alignment */}
         <div className="w-[84px]" />
         <div>
-          <img src={'./logo.png'} className="max-w-56 mx-auto" />
-          <h1 className="text-center text-5xl mb-10">jellybean</h1>
+          <img src={'./logo.png'} className="max-w-36 sm:max-w-56 mx-auto" />
+          <h1 className="text-center text-5xl mb-10 mt-5">jellybean</h1>
         </div>
-        <div>
-          <IconButton icon="help" onClick={() => setShowOverlay('help')} />
-          {authenticated ? (
-            <IconButton icon="log out" onClick={logOutUser} />
-          ) : (
-            <IconButton icon="log in" onClick={() => setShowOverlay('auth')} />
-          )}
+        <div className="flex flex-wrap justify-end">
+          <div className="max-[399px]:order-2">
+            {authenticated ? (
+              <IconButton icon="log out" onClick={logOutUser} />
+            ) : (
+              <IconButton
+                icon="log in"
+                onClick={() => setShowOverlay('auth')}
+              />
+            )}
+          </div>
+          <div className="max-[399px]:order-1">
+            <IconButton icon="help" onClick={() => setShowOverlay('help')} />
+          </div>
         </div>
       </div>
 
-      <div className="text-center flex flex-col">
+      <div className="text-center flex flex-col w-full sm:w-xl  px-5">
         {jellybeans.length > 1 ? (
           <SortButtons
             sort={sort}
@@ -75,30 +82,28 @@ function App() {
           <></>
         )}
 
-        <div className="w-xl">
-          {jellybeans.map((jellybean, i) => (
-            <JellybeanCard
-              jellybean={jellybean}
+        {jellybeans.map((jellybean, i) => (
+          <JellybeanCard
+            jellybean={jellybean}
+            fetchJellybeans={fetchJellybeans}
+            addingOrEditing={addingOrEditing}
+            setAddingOrEditing={setAddingOrEditing}
+            isLast={i === jellybeans.length - 1}
+            key={jellybean.id}
+          />
+        ))}
+
+        {authenticated ? (
+          <div className="mt-10">
+            <NewJellybeanForm
               fetchJellybeans={fetchJellybeans}
               addingOrEditing={addingOrEditing}
               setAddingOrEditing={setAddingOrEditing}
-              isLast={i === jellybeans.length - 1}
-              key={jellybean.id}
             />
-          ))}
-
-          {authenticated ? (
-            <div className="mt-10">
-              <NewJellybeanForm
-                fetchJellybeans={fetchJellybeans}
-                addingOrEditing={addingOrEditing}
-                setAddingOrEditing={setAddingOrEditing}
-              />
-            </div>
-          ) : (
-            <p>Log in to continue</p>
-          )}
-        </div>
+          </div>
+        ) : (
+          <p>Log in to continue</p>
+        )}
       </div>
 
       <p className="mt-30 pb-7">© Lucas Nethercott. All rights reserved.</p>

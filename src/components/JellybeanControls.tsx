@@ -16,9 +16,9 @@ export default function JellybeanControls({
   const { deleteJellybean } = useDeleteJellybean(fetchJellybeans);
 
   return (
-    <div className="flex justify-between items-center">
-      <p>{jellybean.flavor}</p>
-      <div>
+    <div className="flex justify-between items-center gap-2">
+      <p className="truncate">{jellybean.flavor}</p>
+      <div className="shrink-0">
         <IconButton onClick={enderEditMode} icon="edit" />
         <IconButton
           onClick={() => deleteJellybean(jellybean.id)}
