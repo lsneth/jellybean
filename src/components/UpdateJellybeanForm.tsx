@@ -35,6 +35,7 @@ export default function UpdateJellybeanForm({
       <TextInput
         value={newJellybeanFlavor}
         onChange={(e) => setNewJellybeanFlavor(e.target.value)}
+        placeholder="Enter a flavor"
       />
       <IconButton isSubmit icon="confirm" />
     </form>

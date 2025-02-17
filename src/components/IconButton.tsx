@@ -26,9 +26,11 @@ type PropTypes = {
     | 'close'
     | 'log in'
     | 'log out'
-    | 'help';
+    | 'help'
+    | 'placeholder';
 
   accent?: boolean;
+  title?: string;
 };
 
 export default function IconButton({
@@ -36,6 +38,7 @@ export default function IconButton({
   isSubmit = false,
   icon,
   accent = false,
+  title = '',
 }: PropTypes) {
   let svg;
   switch (icon) {
@@ -75,19 +78,24 @@ export default function IconButton({
     case 'help':
       svg = help;
       break;
+    case 'placeholder':
+      svg = help;
+      break;
     default:
       break;
   }
   return (
     <button
       onClick={onClick}
-      className={`rounded-lg p-2 m-0.5 hover:cursor-pointer drop-shadow-xl ${
+      className={`${
+        icon === 'placeholder' ? 'opacity-0' : 'cursor-pointer'
+      } rounded-lg p-2 m-0.5  drop-shadow-xl ${
         accent
-          ? 'bg-amber-600 hover:bg-amber-700'
-          : 'border border-neutral-50 bg-neutral-900 hover:bg-neutral-700'
+          ? 'bg-amber-600 hover:bg-amber-700 active:bg-amber-700'
+          : 'border border-neutral-50 bg-neutral-900 hover:bg-neutral-700 active:bg-neutral-700'
       }`}
       type={isSubmit ? 'submit' : undefined}
-      title={icon}
+      title={title === '' ? icon : title}
     >
       <img src={svg} className="w-7 sm:w-5" />
     </button>

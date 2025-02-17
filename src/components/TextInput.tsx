@@ -3,6 +3,7 @@ type PropTypes = {
   onChange: (e: React.ChangeEvent<HTMLInputElement>) => void;
   type?: 'text' | 'password' | 'username';
   autofocus?: boolean;
+  placeholder?: string;
 };
 
 export default function TextInput({
@@ -10,6 +11,7 @@ export default function TextInput({
   onChange,
   type = 'text',
   autofocus = true,
+  placeholder = '',
 }: PropTypes) {
   return (
     <input
@@ -18,6 +20,7 @@ export default function TextInput({
       onChange={onChange}
       className="border border-neutral-50 rounded-lg px-3 bg-neutral-900 my-1 mr-1"
       autoFocus={autofocus}
+      placeholder={placeholder}
     />
   );
 }

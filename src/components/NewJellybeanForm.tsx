@@ -36,6 +36,7 @@ export default function NewJellybeanForm({
       <TextInput
         value={newJellybeanFlavor}
         onChange={(e) => setNewJellybeanFlavor(e.target.value)}
+        placeholder="Enter a flavor"
       />
       <IconButton isSubmit icon="confirm" accent />
     </form>

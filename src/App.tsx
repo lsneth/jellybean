@@ -10,8 +10,13 @@ import { useSupabase } from './hooks/useSupabase';
 
 function App() {
   const [jellybeans, setJellybeans] = useState<JellybeanType[]>([]);
-  const [sort, setSort] = useState<'created_time' | 'flavor'>('created_time');
-  const [ascending, setAscending] = useState<boolean>(true);
+  const [sort, setSort] = useState<'created_time' | 'flavor'>(
+    (localStorage.getItem('sort') as 'created_time' | 'flavor' | null) ??
+      'created_time'
+  );
+  const [ascending, setAscending] = useState<boolean>(
+    localStorage.getItem('ascending') === 'true'
+  );
   const [showOverlay, setShowOverlay] = useState<'help' | 'auth' | undefined>(
     undefined
   );
@@ -29,6 +34,13 @@ function App() {
     fetchJellybeans();
   }, [ascending, sort, authenticated]);
 
+  useEffect(() => {
+    if (!localStorage.getItem('returning_user')) {
+      setShowOverlay('help');
+      localStorage.setItem('returning_user', 'true');
+    }
+  }, []);
+
   return (
     <div className="h-full flex flex-col justify-between items-center">
       {!!showOverlay ? (
@@ -41,26 +53,21 @@ function App() {
       )}
 
       <div className="flex justify-between w-full items-start p-5">
-        {/* this empty div is for even alignment */}
-        <div className="w-[124px] sm:w-[84px]" />
         <div>
-          <img src={'./logo.png'} className="max-w-36 sm:max-w-56 mx-auto" />
+          <IconButton icon="placeholder" />
+          <IconButton icon="placeholder" />
+        </div>
+        <div>
+          <img src={'./logo.png'} className="max-w-24 sm:max-w-36 mx-auto" />
           <h1 className="text-center text-5xl mb-10 mt-5">jellybean</h1>
         </div>
         <div className="flex flex-wrap justify-end">
-          <div className="max-[455px]:order-2">
-            {authenticated ? (
-              <IconButton icon="log out" onClick={logOutUser} />
-            ) : (
-              <IconButton
-                icon="log in"
-                onClick={() => setShowOverlay('auth')}
-              />
-            )}
-          </div>
-          <div className="max-[455px]:order-1">
-            <IconButton icon="help" onClick={() => setShowOverlay('help')} />
-          </div>
+          <IconButton icon="help" onClick={() => setShowOverlay('help')} />
+          {authenticated ? (
+            <IconButton icon="log out" onClick={logOutUser} />
+          ) : (
+            <IconButton icon="log in" onClick={() => setShowOverlay('auth')} />
+          )}
         </div>
       </div>
 
@@ -69,12 +76,17 @@ function App() {
           <SortButtons
             sort={sort}
             toggleSort={() => {
+              localStorage.setItem(
+                'sort',
+                sort === 'created_time' ? 'flavor' : 'created_time'
+              );
               setSort((prev) =>
                 prev === 'created_time' ? 'flavor' : 'created_time'
               );
             }}
             ascending={ascending}
             toggleAscending={() => {
+              localStorage.setItem('ascending', (!ascending).toString());
               setAscending((prev) => !prev);
             }}
           />
@@ -102,7 +114,15 @@ function App() {
             />
           </div>
         ) : (
-          <p>Log in to continue</p>
+          <div className="flex gap-1 justify-center">
+            <button
+              onClick={() => setShowOverlay('auth')}
+              className="cursor-pointer underline"
+            >
+              Log in
+            </button>
+            <p> to continue</p>
+          </div>
         )}
       </div>
 

@@ -74,7 +74,7 @@ export default function AuthOverlayContent({
           onClick={() => {
             toggleUserHasAccount();
           }}
-          className="hover:underline hover:cursor-pointer drop-shadow-xl"
+          className="underline cursor-pointer drop-shadow-xl"
         >
           {userHasAccount ? 'Create an account →' : 'Log in →'}
         </button>
