@@ -7,7 +7,7 @@ import SortButtons from './components/SortButtons';
 import Overlay from './components/Overlay';
 import IconButton from './components/IconButton';
 import { useSupabase } from './hooks/useSupabase';
-import { DotLoader as Loader } from 'react-spinners';
+import { DotLoader } from 'react-spinners';
 
 function App() {
   const [jellybeans, setJellybeans] = useState<JellybeanType[]>([]);
@@ -21,21 +21,21 @@ function App() {
   const [showOverlay, setShowOverlay] = useState<'help' | 'auth' | undefined>(
     undefined
   );
-  const [loading, setLoading] = useState<boolean>(true);
+  const [loading, setLoading] = useState<boolean>(false);
+  const [logoutLoading, setLogoutLoading] = useState<boolean>(false);
 
-  const { authenticated, logOutUser } = useSupabase({ setLoading });
+  const { authenticated, logOutUser } = useSupabase();
   const { fetchJellybeans } = useFetchJellybeans({
     setJellybeans,
     sort,
     ascending,
-    setLoading,
   });
   const [addingOrEditing, setAddingOrEditing] = useState<
     'adding' | 'editing' | undefined
   >();
 
   useEffect(() => {
-    fetchJellybeans();
+    fetchJellybeans(setLoading);
   }, [ascending, sort, authenticated]);
 
   useEffect(() => {
@@ -51,7 +51,6 @@ function App() {
         <Overlay
           showOverlay={showOverlay}
           closeOverlay={() => setShowOverlay(undefined)}
-          setLoading={setLoading}
         />
       ) : (
         <></>
@@ -69,7 +68,11 @@ function App() {
         <div className="flex flex-wrap justify-end">
           <IconButton icon="help" onClick={() => setShowOverlay('help')} />
           {authenticated ? (
-            <IconButton icon="log out" onClick={logOutUser} />
+            <IconButton
+              icon="log out"
+              onClick={() => logOutUser({ setLoading: setLogoutLoading })}
+              loading={logoutLoading}
+            />
           ) : (
             <IconButton icon="log in" onClick={() => setShowOverlay('auth')} />
           )}
@@ -78,14 +81,14 @@ function App() {
 
       <div className="text-center flex flex-col w-full sm:w-xl px-5">
         {loading ? (
-          <Loader
+          <DotLoader
             loading={loading}
             size={75}
             color="#fff"
             cssOverride={{ margin: '50px auto 200px' }}
           />
         ) : (
-          <div>
+          <>
             {jellybeans.length > 1 ? (
               <SortButtons
                 sort={sort}
@@ -104,8 +107,6 @@ function App() {
                   setAscending((prev) => !prev);
                 }}
               />
-            ) : jellybeans.length === 0 && authenticated ? (
-              <p>Use the "+" button to add your first flavor</p>
             ) : (
               <></>
             )}
@@ -117,18 +118,23 @@ function App() {
                 addingOrEditing={addingOrEditing}
                 setAddingOrEditing={setAddingOrEditing}
                 isLast={i === jellybeans.length - 1}
-                setLoading={setLoading}
                 key={jellybean.id}
               />
             ))}
 
             {authenticated ? (
               <div className="mt-10">
+                {jellybeans.length === 0 ? (
+                  <p className="mb-6">
+                    Use the "+" button to add your first flavor
+                  </p>
+                ) : (
+                  <></>
+                )}
                 <NewJellybeanForm
                   fetchJellybeans={fetchJellybeans}
                   addingOrEditing={addingOrEditing}
                   setAddingOrEditing={setAddingOrEditing}
-                  setLoading={setLoading}
                 />
               </div>
             ) : (
@@ -142,11 +148,11 @@ function App() {
                 <p> to continue</p>
               </div>
             )}
-          </div>
+          </>
         )}
       </div>
 
-      <p className="mt-30 pb-7">© Lucas Nethercott. All rights reserved.</p>
+      <p className="mt-25 pb-7">© Lucas Nethercott. All rights reserved.</p>
     </div>
   );
 }

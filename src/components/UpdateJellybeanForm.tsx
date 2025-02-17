@@ -1,6 +1,7 @@
 import useUpdateJellybean from '../hooks/useUpdateJellybean';
 import TextInput from './TextInput';
 import IconButton from './IconButton';
+import { useState } from 'react';
 
 type PropTypes = {
   fetchJellybeans: () => Promise<void>;
@@ -8,7 +9,6 @@ type PropTypes = {
   newJellybeanFlavor: string;
   setNewJellybeanFlavor: React.Dispatch<React.SetStateAction<string>>;
   resetEditing: () => void;
-  setLoading: React.Dispatch<React.SetStateAction<boolean>>;
 };
 
 export default function UpdateJellybeanForm({
@@ -17,12 +17,12 @@ export default function UpdateJellybeanForm({
   newJellybeanFlavor,
   setNewJellybeanFlavor,
   resetEditing,
-  setLoading,
 }: PropTypes) {
+  const [loading, setLoading] = useState<boolean>(false);
   const { updateJellybean } = useUpdateJellybean({
     fetchJellybeans,
-    setLoading,
   });
+
   return (
     <form
       onSubmit={(e: React.FormEvent) => {
@@ -32,8 +32,12 @@ export default function UpdateJellybeanForm({
           return;
         }
 
-        updateJellybean({ flavor: newJellybeanFlavor, id: jellybeanId });
-        resetEditing();
+        updateJellybean({
+          flavor: newJellybeanFlavor,
+          id: jellybeanId,
+          setLoading,
+          callback: resetEditing,
+        });
       }}
       className="flex justify-between"
     >
@@ -42,7 +46,7 @@ export default function UpdateJellybeanForm({
         onChange={(e) => setNewJellybeanFlavor(e.target.value)}
         placeholder="Enter a flavor"
       />
-      <IconButton isSubmit icon="confirm" />
+      <IconButton isSubmit icon="confirm" loading={loading} />
     </form>
   );
 }

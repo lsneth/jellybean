@@ -11,7 +11,6 @@ type PropTypes = {
     React.SetStateAction<'adding' | 'editing' | undefined>
   >;
   isLast: boolean;
-  setLoading: React.Dispatch<React.SetStateAction<boolean>>;
 };
 
 export default function JellybeanCard({
@@ -20,7 +19,6 @@ export default function JellybeanCard({
   addingOrEditing,
   setAddingOrEditing,
   isLast,
-  setLoading,
 }: PropTypes) {
   const [newJellybeanFlavor, setNewJellybeanFlavor] = useState<string>('');
   const [editingJellybeanId, setEditingJellybeanId] = useState<string>('');
@@ -39,7 +37,6 @@ export default function JellybeanCard({
             setAddingOrEditing(undefined);
             setEditingJellybeanId('');
           }}
-          setLoading={setLoading}
         />
       ) : (
         <JellybeanControls
@@ -50,7 +47,6 @@ export default function JellybeanCard({
             setEditingJellybeanId(jellybean.id);
             setNewJellybeanFlavor(jellybean.flavor);
           }}
-          setLoading={setLoading}
         />
       )}
     </div>

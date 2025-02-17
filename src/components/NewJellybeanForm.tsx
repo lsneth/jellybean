@@ -9,18 +9,16 @@ type PropTypes = {
   setAddingOrEditing: React.Dispatch<
     React.SetStateAction<'adding' | 'editing' | undefined>
   >;
-  setLoading: React.Dispatch<React.SetStateAction<boolean>>;
 };
 
 export default function NewJellybeanForm({
   fetchJellybeans,
   addingOrEditing,
   setAddingOrEditing,
-  setLoading,
 }: PropTypes) {
+  const [loading, setLoading] = useState<boolean>(false);
   const { insertJellybean } = useInsertJellybean({
     fetchJellybeans,
-    setLoading,
   });
   const [newJellybeanFlavor, setNewJellybeanFlavor] = useState<string>('');
 
@@ -32,8 +30,11 @@ export default function NewJellybeanForm({
           alert('You cannot save an empty flavor.');
           return;
         }
-        insertJellybean(newJellybeanFlavor);
-        setAddingOrEditing(undefined);
+        insertJellybean({
+          flavor: newJellybeanFlavor,
+          setLoading,
+          callback: () => setAddingOrEditing(undefined),
+        });
         setNewJellybeanFlavor('');
       }}
       className="flex justify-center"
@@ -43,7 +44,7 @@ export default function NewJellybeanForm({
         onChange={(e) => setNewJellybeanFlavor(e.target.value)}
         placeholder="Enter a flavor"
       />
-      <IconButton isSubmit icon="confirm" accent />
+      <IconButton isSubmit icon="confirm" accent loading={loading} />
     </form>
   ) : (
     <IconButton

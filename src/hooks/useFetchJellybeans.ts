@@ -7,35 +7,34 @@ type PropTypes = {
   setJellybeans: (data: Jellybean[]) => void;
   sort: 'flavor' | 'created_time';
   ascending: boolean;
-  setLoading: React.Dispatch<React.SetStateAction<boolean>>;
 };
 
 export default function useFetchJellybeans({
   setJellybeans,
   sort,
   ascending,
-  setLoading,
-}: PropTypes): {
-  fetchJellybeans: () => Promise<void>;
-} {
-  const { supabase } = useSupabase({ setLoading });
+}: PropTypes) {
+  const { supabase } = useSupabase();
 
-  async function fetchJellybeans(): Promise<void> {
+  async function fetchJellybeans(
+    setLoading: React.Dispatch<React.SetStateAction<boolean>> = () => {}
+  ) {
     setLoading(true);
     const {
       data,
       error,
     }: { data: Jellybean[] | null; error: PostgrestError | null } =
       await supabase.from('jellybeans').select().order(sort, { ascending });
-    setLoading(false);
 
     if (error) {
       console.error(`Error fetching jellybeans: ${error.message}`);
       alert(`Failed to fetch jellybeans: ${error.message}`);
+      setLoading(false);
       return;
     }
 
     setJellybeans(data ?? []);
+    setLoading(false);
   }
 
   return { fetchJellybeans };

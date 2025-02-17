@@ -1,4 +1,4 @@
-import { createClient, SupabaseClient } from '@supabase/supabase-js';
+import { createClient } from '@supabase/supabase-js';
 import { useEffect, useState } from 'react';
 
 const supabaseUrl = 'https://lbfcegnaffgqvbllwimf.supabase.co';
@@ -7,29 +7,7 @@ const supabaseAnonKey =
 
 const supabase = createClient(supabaseUrl, supabaseAnonKey);
 
-type PropTypes = {
-  setLoading: React.Dispatch<React.SetStateAction<boolean>>;
-};
-
-export function useSupabase({ setLoading }: PropTypes): {
-  supabase: SupabaseClient<any, 'public', any>;
-  createUser: ({
-    email,
-    password,
-  }: {
-    email: string;
-    password: string;
-  }) => Promise<void>;
-  logInUser: ({
-    email,
-    password,
-  }: {
-    email: string;
-    password: string;
-  }) => Promise<void>;
-  logOutUser: () => Promise<void>;
-  authenticated: boolean;
-} {
+export function useSupabase() {
   const [authenticated, setAuthenticated] = useState<boolean>(false);
 
   useEffect(() => {
@@ -49,10 +27,12 @@ export function useSupabase({ setLoading }: PropTypes): {
   async function createUser({
     email,
     password,
+    setLoading,
   }: {
     email: string;
     password: string;
-  }): Promise<void> {
+    setLoading: React.Dispatch<React.SetStateAction<boolean>>;
+  }) {
     setLoading(true);
     const { error } = await supabase.auth.signUp({
       email,
@@ -70,10 +50,12 @@ export function useSupabase({ setLoading }: PropTypes): {
   async function logInUser({
     email,
     password,
+    setLoading,
   }: {
     email: string;
     password: string;
-  }): Promise<void> {
+    setLoading: React.Dispatch<React.SetStateAction<boolean>>;
+  }) {
     setLoading(true);
     const { error } = await supabase.auth.signInWithPassword({
       email,
@@ -88,7 +70,11 @@ export function useSupabase({ setLoading }: PropTypes): {
     }
   }
 
-  async function logOutUser(): Promise<void> {
+  async function logOutUser({
+    setLoading,
+  }: {
+    setLoading: React.Dispatch<React.SetStateAction<boolean>>;
+  }) {
     setLoading(true);
     const { error } = await supabase.auth.signOut();
     setLoading(false);
