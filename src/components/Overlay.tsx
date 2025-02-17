@@ -6,14 +6,9 @@ import IconButton from './IconButton';
 type PropTypes = {
   showOverlay: 'help' | 'auth';
   closeOverlay: () => void;
-  setLoading: React.Dispatch<React.SetStateAction<boolean>>;
 };
 
-export default function Overlay({
-  showOverlay,
-  closeOverlay,
-  setLoading,
-}: PropTypes) {
+export default function Overlay({ showOverlay, closeOverlay }: PropTypes) {
   const [userHasAccount, setUserHasAccount] = useState<boolean>(false);
 
   return (
@@ -40,7 +35,6 @@ export default function Overlay({
               userHasAccount={userHasAccount}
               toggleUserHasAccount={() => setUserHasAccount((prev) => !prev)}
               closeOverlay={closeOverlay}
-              setLoading={setLoading}
             />
           ) : (
             <HelpOverlayContent />

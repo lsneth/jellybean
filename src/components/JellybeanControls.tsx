@@ -6,18 +6,15 @@ type PropTypes = {
   jellybean: JellybeanType;
   fetchJellybeans: () => Promise<void>;
   enderEditMode: () => void;
-  setLoading: React.Dispatch<React.SetStateAction<boolean>>;
 };
 
 export default function JellybeanControls({
   jellybean,
   fetchJellybeans,
   enderEditMode,
-  setLoading,
 }: PropTypes) {
   const { deleteJellybean } = useDeleteJellybean({
     fetchJellybeans,
-    setLoading,
   });
 
   return (

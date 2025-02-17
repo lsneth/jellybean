@@ -8,7 +8,6 @@ type PropTypes = {
   newJellybeanFlavor: string;
   setNewJellybeanFlavor: React.Dispatch<React.SetStateAction<string>>;
   resetEditing: () => void;
-  setLoading: React.Dispatch<React.SetStateAction<boolean>>;
 };
 
 export default function UpdateJellybeanForm({
@@ -17,11 +16,9 @@ export default function UpdateJellybeanForm({
   newJellybeanFlavor,
   setNewJellybeanFlavor,
   resetEditing,
-  setLoading,
 }: PropTypes) {
   const { updateJellybean } = useUpdateJellybean({
     fetchJellybeans,
-    setLoading,
   });
   return (
     <form

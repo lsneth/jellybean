@@ -9,18 +9,15 @@ type PropTypes = {
   setAddingOrEditing: React.Dispatch<
     React.SetStateAction<'adding' | 'editing' | undefined>
   >;
-  setLoading: React.Dispatch<React.SetStateAction<boolean>>;
 };
 
 export default function NewJellybeanForm({
   fetchJellybeans,
   addingOrEditing,
   setAddingOrEditing,
-  setLoading,
 }: PropTypes) {
   const { insertJellybean } = useInsertJellybean({
     fetchJellybeans,
-    setLoading,
   });
   const [newJellybeanFlavor, setNewJellybeanFlavor] = useState<string>('');
 

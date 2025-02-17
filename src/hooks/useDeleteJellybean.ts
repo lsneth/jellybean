@@ -2,16 +2,12 @@ import { useSupabase } from './useSupabase';
 
 type PropTypes = {
   fetchJellybeans: () => void;
-  setLoading: React.Dispatch<React.SetStateAction<boolean>>;
 };
 
-export default function useDeleteJellybean({
-  fetchJellybeans,
-  setLoading,
-}: PropTypes): {
+export default function useDeleteJellybean({ fetchJellybeans }: PropTypes): {
   deleteJellybean: (id: string) => Promise<void>;
 } {
-  const { supabase } = useSupabase({ setLoading });
+  const { supabase } = useSupabase();
 
   async function deleteJellybean(id: string): Promise<void> {
     const { error } = await supabase.from('jellybeans').delete().eq('id', id);

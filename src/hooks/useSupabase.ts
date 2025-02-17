@@ -1,5 +1,6 @@
 import { createClient, SupabaseClient } from '@supabase/supabase-js';
 import { useEffect, useState } from 'react';
+import { useLoading } from '../providers/LoadingProvider';
 
 const supabaseUrl = 'https://lbfcegnaffgqvbllwimf.supabase.co';
 const supabaseAnonKey =
@@ -7,11 +8,7 @@ const supabaseAnonKey =
 
 const supabase = createClient(supabaseUrl, supabaseAnonKey);
 
-type PropTypes = {
-  setLoading: React.Dispatch<React.SetStateAction<boolean>>;
-};
-
-export function useSupabase({ setLoading }: PropTypes): {
+export function useSupabase(): {
   supabase: SupabaseClient<any, 'public', any>;
   createUser: ({
     email,
@@ -30,6 +27,7 @@ export function useSupabase({ setLoading }: PropTypes): {
   logOutUser: () => Promise<void>;
   authenticated: boolean;
 } {
+  const { setLoading } = useLoading();
   const [authenticated, setAuthenticated] = useState<boolean>(false);
 
   useEffect(() => {

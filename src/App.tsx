@@ -8,6 +8,7 @@ import Overlay from './components/Overlay';
 import IconButton from './components/IconButton';
 import { useSupabase } from './hooks/useSupabase';
 import { DotLoader as Loader } from 'react-spinners';
+import { useLoading } from './providers/LoadingProvider';
 
 function App() {
   const [jellybeans, setJellybeans] = useState<JellybeanType[]>([]);
@@ -21,14 +22,13 @@ function App() {
   const [showOverlay, setShowOverlay] = useState<'help' | 'auth' | undefined>(
     undefined
   );
-  const [loading, setLoading] = useState<boolean>(true);
+  const { loading } = useLoading();
 
-  const { authenticated, logOutUser } = useSupabase({ setLoading });
+  const { authenticated, logOutUser } = useSupabase();
   const { fetchJellybeans } = useFetchJellybeans({
     setJellybeans,
     sort,
     ascending,
-    setLoading,
   });
   const [addingOrEditing, setAddingOrEditing] = useState<
     'adding' | 'editing' | undefined
@@ -51,7 +51,6 @@ function App() {
         <Overlay
           showOverlay={showOverlay}
           closeOverlay={() => setShowOverlay(undefined)}
-          setLoading={setLoading}
         />
       ) : (
         <></>
@@ -117,7 +116,6 @@ function App() {
                 addingOrEditing={addingOrEditing}
                 setAddingOrEditing={setAddingOrEditing}
                 isLast={i === jellybeans.length - 1}
-                setLoading={setLoading}
                 key={jellybean.id}
               />
             ))}
@@ -128,7 +126,6 @@ function App() {
                   fetchJellybeans={fetchJellybeans}
                   addingOrEditing={addingOrEditing}
                   setAddingOrEditing={setAddingOrEditing}
-                  setLoading={setLoading}
                 />
               </div>
             ) : (
