@@ -7,16 +7,18 @@ type PropTypes = {
   closeOverlay: () => void;
   userHasAccount: boolean;
   toggleUserHasAccount: () => void;
+  setLoading: React.Dispatch<React.SetStateAction<boolean>>;
 };
 
 export default function AuthOverlayContent({
   closeOverlay,
   userHasAccount,
   toggleUserHasAccount,
+  setLoading,
 }: PropTypes) {
   const [email, setEmail] = useState<string>('');
   const [password, setPassword] = useState<string>('');
-  const { createUser, logInUser, authenticated } = useSupabase();
+  const { createUser, logInUser, authenticated } = useSupabase({ setLoading });
 
   // not usually a great use of useEffect, but in this case I thiiink it's justified.
   // because we're waiting on the response from supabase that the authentication succeeded (on log in or create account)
@@ -32,7 +34,7 @@ export default function AuthOverlayContent({
         onSubmit={(e: React.FormEvent) => {
           e.preventDefault();
           if (!email.trim() || !password) {
-            alert('You authenticate with empty credentials.');
+            alert("You can't authenticate with empty credentials.");
             return;
           }
 

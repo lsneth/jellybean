@@ -1,6 +1,14 @@
 import { useSupabase } from './useSupabase';
 
-export default function useUpdateJellybean(fetchJellybeans: () => void): {
+type PropTypes = {
+  fetchJellybeans: () => void;
+  setLoading: React.Dispatch<React.SetStateAction<boolean>>;
+};
+
+export default function useUpdateJellybean({
+  fetchJellybeans,
+  setLoading,
+}: PropTypes): {
   updateJellybean: ({
     flavor,
     id,
@@ -9,7 +17,7 @@ export default function useUpdateJellybean(fetchJellybeans: () => void): {
     id: string;
   }) => Promise<void>;
 } {
-  const { supabase } = useSupabase();
+  const { supabase } = useSupabase({ setLoading });
 
   async function updateJellybean({
     flavor,

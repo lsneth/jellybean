@@ -6,14 +6,19 @@ type PropTypes = {
   jellybean: JellybeanType;
   fetchJellybeans: () => Promise<void>;
   enderEditMode: () => void;
+  setLoading: React.Dispatch<React.SetStateAction<boolean>>;
 };
 
 export default function JellybeanControls({
   jellybean,
   fetchJellybeans,
   enderEditMode,
+  setLoading,
 }: PropTypes) {
-  const { deleteJellybean } = useDeleteJellybean(fetchJellybeans);
+  const { deleteJellybean } = useDeleteJellybean({
+    fetchJellybeans,
+    setLoading,
+  });
 
   return (
     <div className="flex justify-between items-center gap-2">

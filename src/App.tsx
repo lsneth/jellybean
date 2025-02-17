@@ -7,6 +7,7 @@ import SortButtons from './components/SortButtons';
 import Overlay from './components/Overlay';
 import IconButton from './components/IconButton';
 import { useSupabase } from './hooks/useSupabase';
+import { DotLoader as Loader } from 'react-spinners';
 
 function App() {
   const [jellybeans, setJellybeans] = useState<JellybeanType[]>([]);
@@ -20,11 +21,14 @@ function App() {
   const [showOverlay, setShowOverlay] = useState<'help' | 'auth' | undefined>(
     undefined
   );
-  const { authenticated, logOutUser } = useSupabase();
+  const [loading, setLoading] = useState<boolean>(true);
+
+  const { authenticated, logOutUser } = useSupabase({ setLoading });
   const { fetchJellybeans } = useFetchJellybeans({
-    setJellybeans: setJellybeans,
-    sort: sort,
-    ascending: ascending,
+    setJellybeans,
+    sort,
+    ascending,
+    setLoading,
   });
   const [addingOrEditing, setAddingOrEditing] = useState<
     'adding' | 'editing' | undefined
@@ -47,6 +51,7 @@ function App() {
         <Overlay
           showOverlay={showOverlay}
           closeOverlay={() => setShowOverlay(undefined)}
+          setLoading={setLoading}
         />
       ) : (
         <></>
@@ -71,57 +76,70 @@ function App() {
         </div>
       </div>
 
-      <div className="text-center flex flex-col w-full sm:w-xl  px-5">
-        {jellybeans.length > 1 ? (
-          <SortButtons
-            sort={sort}
-            toggleSort={() => {
-              localStorage.setItem(
-                'sort',
-                sort === 'created_time' ? 'flavor' : 'created_time'
-              );
-              setSort((prev) =>
-                prev === 'created_time' ? 'flavor' : 'created_time'
-              );
-            }}
-            ascending={ascending}
-            toggleAscending={() => {
-              localStorage.setItem('ascending', (!ascending).toString());
-              setAscending((prev) => !prev);
-            }}
+      <div className="text-center flex flex-col w-full sm:w-xl px-5">
+        {loading ? (
+          <Loader
+            loading={loading}
+            size={75}
+            color="#fff"
+            cssOverride={{ margin: '50px auto 200px' }}
           />
         ) : (
-          <></>
-        )}
+          <div>
+            {jellybeans.length > 1 ? (
+              <SortButtons
+                sort={sort}
+                toggleSort={() => {
+                  localStorage.setItem(
+                    'sort',
+                    sort === 'created_time' ? 'flavor' : 'created_time'
+                  );
+                  setSort((prev) =>
+                    prev === 'created_time' ? 'flavor' : 'created_time'
+                  );
+                }}
+                ascending={ascending}
+                toggleAscending={() => {
+                  localStorage.setItem('ascending', (!ascending).toString());
+                  setAscending((prev) => !prev);
+                }}
+              />
+            ) : (
+              <></>
+            )}
 
-        {jellybeans.map((jellybean, i) => (
-          <JellybeanCard
-            jellybean={jellybean}
-            fetchJellybeans={fetchJellybeans}
-            addingOrEditing={addingOrEditing}
-            setAddingOrEditing={setAddingOrEditing}
-            isLast={i === jellybeans.length - 1}
-            key={jellybean.id}
-          />
-        ))}
+            {jellybeans.map((jellybean, i) => (
+              <JellybeanCard
+                jellybean={jellybean}
+                fetchJellybeans={fetchJellybeans}
+                addingOrEditing={addingOrEditing}
+                setAddingOrEditing={setAddingOrEditing}
+                isLast={i === jellybeans.length - 1}
+                setLoading={setLoading}
+                key={jellybean.id}
+              />
+            ))}
 
-        {authenticated ? (
-          <div className="mt-10">
-            <NewJellybeanForm
-              fetchJellybeans={fetchJellybeans}
-              addingOrEditing={addingOrEditing}
-              setAddingOrEditing={setAddingOrEditing}
-            />
-          </div>
-        ) : (
-          <div className="flex gap-1 justify-center">
-            <button
-              onClick={() => setShowOverlay('auth')}
-              className="cursor-pointer underline"
-            >
-              Log in
-            </button>
-            <p> to continue</p>
+            {authenticated ? (
+              <div className="mt-10">
+                <NewJellybeanForm
+                  fetchJellybeans={fetchJellybeans}
+                  addingOrEditing={addingOrEditing}
+                  setAddingOrEditing={setAddingOrEditing}
+                  setLoading={setLoading}
+                />
+              </div>
+            ) : (
+              <div className="flex gap-1 justify-center">
+                <button
+                  onClick={() => setShowOverlay('auth')}
+                  className="cursor-pointer underline"
+                >
+                  Log in
+                </button>
+                <p> to continue</p>
+              </div>
+            )}
           </div>
         )}
       </div>
