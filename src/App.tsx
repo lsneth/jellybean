@@ -104,6 +104,8 @@ function App() {
                   setAscending((prev) => !prev);
                 }}
               />
+            ) : jellybeans.length === 0 && authenticated ? (
+              <p>Use the "+" button to add your first flavor</p>
             ) : (
               <></>
             )}
