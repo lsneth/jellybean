@@ -1,9 +1,17 @@
 import { useSupabase } from './useSupabase';
 
-export default function useInsertJellybean(fetchJellybeans: () => void): {
+type PropTypes = {
+  fetchJellybeans: () => void;
+  setLoading: React.Dispatch<React.SetStateAction<boolean>>;
+};
+
+export default function useInsertJellybean({
+  fetchJellybeans,
+  setLoading,
+}: PropTypes): {
   insertJellybean: (flavor: string) => Promise<void>;
 } {
-  const { supabase } = useSupabase();
+  const { supabase } = useSupabase({ setLoading });
 
   async function insertJellybean(flavor: string): Promise<void> {
     const { error } = await supabase.from('jellybeans').insert({ flavor });

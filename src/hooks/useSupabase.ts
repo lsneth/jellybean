@@ -7,7 +7,11 @@ const supabaseAnonKey =
 
 const supabase = createClient(supabaseUrl, supabaseAnonKey);
 
-export function useSupabase(): {
+type PropTypes = {
+  setLoading: React.Dispatch<React.SetStateAction<boolean>>;
+};
+
+export function useSupabase({ setLoading }: PropTypes): {
   supabase: SupabaseClient<any, 'public', any>;
   createUser: ({
     email,
@@ -29,16 +33,14 @@ export function useSupabase(): {
   const [authenticated, setAuthenticated] = useState<boolean>(false);
 
   useEffect(() => {
-    const { data } = supabase.auth.onAuthStateChange((event, session) => {
-      console.log(event, session);
-
+    const { data } = supabase.auth.onAuthStateChange((event) => {
       if (event === 'SIGNED_IN') {
         setAuthenticated(true);
       } else if (event === 'SIGNED_OUT') {
         setAuthenticated(false);
       }
     });
-    // call unsubscribe to remove the callback
+
     return () => {
       data.subscription.unsubscribe();
     };
@@ -51,10 +53,12 @@ export function useSupabase(): {
     email: string;
     password: string;
   }): Promise<void> {
+    setLoading(true);
     const { error } = await supabase.auth.signUp({
       email,
       password,
     });
+    setLoading(false);
 
     if (error) {
       console.error(`Error creating account: ${error.message}`);
@@ -70,10 +74,12 @@ export function useSupabase(): {
     email: string;
     password: string;
   }): Promise<void> {
+    setLoading(true);
     const { error } = await supabase.auth.signInWithPassword({
       email,
       password,
     });
+    setLoading(false);
 
     if (error) {
       console.error(`Error logging in: ${error.message}`);
@@ -83,7 +89,9 @@ export function useSupabase(): {
   }
 
   async function logOutUser(): Promise<void> {
+    setLoading(true);
     const { error } = await supabase.auth.signOut();
+    setLoading(false);
 
     if (error) {
       console.error(`Error logging out: ${error.message}`);

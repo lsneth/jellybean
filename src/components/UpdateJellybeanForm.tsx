@@ -8,6 +8,7 @@ type PropTypes = {
   newJellybeanFlavor: string;
   setNewJellybeanFlavor: React.Dispatch<React.SetStateAction<string>>;
   resetEditing: () => void;
+  setLoading: React.Dispatch<React.SetStateAction<boolean>>;
 };
 
 export default function UpdateJellybeanForm({
@@ -16,8 +17,12 @@ export default function UpdateJellybeanForm({
   newJellybeanFlavor,
   setNewJellybeanFlavor,
   resetEditing,
+  setLoading,
 }: PropTypes) {
-  const { updateJellybean } = useUpdateJellybean(fetchJellybeans);
+  const { updateJellybean } = useUpdateJellybean({
+    fetchJellybeans,
+    setLoading,
+  });
   return (
     <form
       onSubmit={(e: React.FormEvent) => {
@@ -35,6 +40,7 @@ export default function UpdateJellybeanForm({
       <TextInput
         value={newJellybeanFlavor}
         onChange={(e) => setNewJellybeanFlavor(e.target.value)}
+        placeholder="Enter a flavor"
       />
       <IconButton isSubmit icon="confirm" />
     </form>

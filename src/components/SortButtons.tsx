@@ -18,11 +18,13 @@ export default function SortButtons({
       <IconButton
         icon={sort === 'created_time' ? 'chronological' : 'alphabetical'}
         onClick={toggleSort}
+        title="toggle sort by"
       />
 
       <IconButton
         icon={ascending ? 'descending' : 'ascending'}
         onClick={toggleAscending}
+        title="toggle sort order"
       />
     </div>
   );

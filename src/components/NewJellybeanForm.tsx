@@ -9,14 +9,19 @@ type PropTypes = {
   setAddingOrEditing: React.Dispatch<
     React.SetStateAction<'adding' | 'editing' | undefined>
   >;
+  setLoading: React.Dispatch<React.SetStateAction<boolean>>;
 };
 
 export default function NewJellybeanForm({
   fetchJellybeans,
   addingOrEditing,
   setAddingOrEditing,
+  setLoading,
 }: PropTypes) {
-  const { insertJellybean } = useInsertJellybean(fetchJellybeans);
+  const { insertJellybean } = useInsertJellybean({
+    fetchJellybeans,
+    setLoading,
+  });
   const [newJellybeanFlavor, setNewJellybeanFlavor] = useState<string>('');
 
   return addingOrEditing === 'adding' ? (
@@ -36,6 +41,7 @@ export default function NewJellybeanForm({
       <TextInput
         value={newJellybeanFlavor}
         onChange={(e) => setNewJellybeanFlavor(e.target.value)}
+        placeholder="Enter a flavor"
       />
       <IconButton isSubmit icon="confirm" accent />
     </form>
