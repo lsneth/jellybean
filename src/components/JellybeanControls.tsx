@@ -1,3 +1,4 @@
+import { useState } from 'react';
 import useDeleteJellybean from '../hooks/useDeleteJellybean';
 import { Jellybean as JellybeanType } from '../types';
 import IconButton from './IconButton';
@@ -13,6 +14,7 @@ export default function JellybeanControls({
   fetchJellybeans,
   enderEditMode,
 }: PropTypes) {
+  const [loading, setLoading] = useState<boolean>(false);
   const { deleteJellybean } = useDeleteJellybean({
     fetchJellybeans,
   });
@@ -23,8 +25,11 @@ export default function JellybeanControls({
       <div className="shrink-0">
         <IconButton onClick={enderEditMode} icon="edit" />
         <IconButton
-          onClick={() => deleteJellybean(jellybean.id)}
+          onClick={() => {
+            deleteJellybean({ id: jellybean.id, setLoading });
+          }}
           icon="remove"
+          loading={loading}
         />
       </div>
     </div>

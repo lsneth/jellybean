@@ -10,6 +10,7 @@ import close from '../assets/x.svg';
 import logIn from '../assets/log-in.svg';
 import logOut from '../assets/log-out.svg';
 import help from '../assets/question-mark.svg';
+import { DotLoader } from 'react-spinners';
 
 type PropTypes = {
   onClick?: () => void;
@@ -31,6 +32,7 @@ type PropTypes = {
 
   accent?: boolean;
   title?: string;
+  loading?: boolean;
 };
 
 export default function IconButton({
@@ -39,6 +41,7 @@ export default function IconButton({
   icon,
   accent = false,
   title = '',
+  loading = false,
 }: PropTypes) {
   let svg;
   switch (icon) {
@@ -87,9 +90,9 @@ export default function IconButton({
   return (
     <button
       onClick={onClick}
-      className={`${
+      className={`rounded-lg p-2 m-0.5 drop-shadow-xl w-11 h-11 sm:w-10 sm:h-10 ${
         icon === 'placeholder' ? 'opacity-0' : 'cursor-pointer'
-      } rounded-lg p-2 m-0.5  drop-shadow-xl ${
+      } ${
         accent
           ? 'bg-amber-600 hover:bg-amber-700 active:bg-amber-700'
           : 'border border-neutral-50 bg-neutral-900 hover:bg-neutral-700 active:bg-neutral-700'
@@ -97,7 +100,13 @@ export default function IconButton({
       type={isSubmit ? 'submit' : undefined}
       title={title === '' ? icon : title}
     >
-      <img src={svg} className="w-7 sm:w-5" />
+      {loading ? (
+        <div className="max-w-11 max-h-11 sm:max-w-10 sm:max-h-10">
+          <DotLoader loading={loading} size={15} color="#fff" />
+        </div>
+      ) : (
+        <img src={svg} />
+      )}
     </button>
   );
 }

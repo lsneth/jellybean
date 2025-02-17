@@ -1,6 +1,5 @@
-import { createClient, SupabaseClient } from '@supabase/supabase-js';
+import { createClient } from '@supabase/supabase-js';
 import { useEffect, useState } from 'react';
-import { useLoading } from '../providers/LoadingProvider';
 
 const supabaseUrl = 'https://lbfcegnaffgqvbllwimf.supabase.co';
 const supabaseAnonKey =
@@ -8,26 +7,7 @@ const supabaseAnonKey =
 
 const supabase = createClient(supabaseUrl, supabaseAnonKey);
 
-export function useSupabase(): {
-  supabase: SupabaseClient<any, 'public', any>;
-  createUser: ({
-    email,
-    password,
-  }: {
-    email: string;
-    password: string;
-  }) => Promise<void>;
-  logInUser: ({
-    email,
-    password,
-  }: {
-    email: string;
-    password: string;
-  }) => Promise<void>;
-  logOutUser: () => Promise<void>;
-  authenticated: boolean;
-} {
-  const { setLoading } = useLoading();
+export function useSupabase() {
   const [authenticated, setAuthenticated] = useState<boolean>(false);
 
   useEffect(() => {
@@ -47,10 +27,12 @@ export function useSupabase(): {
   async function createUser({
     email,
     password,
+    setLoading,
   }: {
     email: string;
     password: string;
-  }): Promise<void> {
+    setLoading: React.Dispatch<React.SetStateAction<boolean>>;
+  }) {
     setLoading(true);
     const { error } = await supabase.auth.signUp({
       email,
@@ -68,10 +50,12 @@ export function useSupabase(): {
   async function logInUser({
     email,
     password,
+    setLoading,
   }: {
     email: string;
     password: string;
-  }): Promise<void> {
+    setLoading: React.Dispatch<React.SetStateAction<boolean>>;
+  }) {
     setLoading(true);
     const { error } = await supabase.auth.signInWithPassword({
       email,
@@ -86,7 +70,11 @@ export function useSupabase(): {
     }
   }
 
-  async function logOutUser(): Promise<void> {
+  async function logOutUser({
+    setLoading,
+  }: {
+    setLoading: React.Dispatch<React.SetStateAction<boolean>>;
+  }) {
     setLoading(true);
     const { error } = await supabase.auth.signOut();
     setLoading(false);

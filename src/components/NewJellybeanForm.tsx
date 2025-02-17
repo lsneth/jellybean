@@ -16,6 +16,7 @@ export default function NewJellybeanForm({
   addingOrEditing,
   setAddingOrEditing,
 }: PropTypes) {
+  const [loading, setLoading] = useState<boolean>(false);
   const { insertJellybean } = useInsertJellybean({
     fetchJellybeans,
   });
@@ -29,8 +30,11 @@ export default function NewJellybeanForm({
           alert('You cannot save an empty flavor.');
           return;
         }
-        insertJellybean(newJellybeanFlavor);
-        setAddingOrEditing(undefined);
+        insertJellybean({
+          flavor: newJellybeanFlavor,
+          setLoading,
+          callback: () => setAddingOrEditing(undefined),
+        });
         setNewJellybeanFlavor('');
       }}
       className="flex justify-center"
@@ -40,7 +44,7 @@ export default function NewJellybeanForm({
         onChange={(e) => setNewJellybeanFlavor(e.target.value)}
         placeholder="Enter a flavor"
       />
-      <IconButton isSubmit icon="confirm" accent />
+      <IconButton isSubmit icon="confirm" accent loading={loading} />
     </form>
   ) : (
     <IconButton

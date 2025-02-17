@@ -16,6 +16,7 @@ export default function AuthOverlayContent({
 }: PropTypes) {
   const [email, setEmail] = useState<string>('');
   const [password, setPassword] = useState<string>('');
+  const [loading, setLoading] = useState<boolean>(false);
   const { createUser, logInUser, authenticated } = useSupabase();
 
   // not usually a great use of useEffect, but in this case I thiiink it's justified.
@@ -37,8 +38,8 @@ export default function AuthOverlayContent({
           }
 
           userHasAccount
-            ? logInUser({ email, password })
-            : createUser({ email, password });
+            ? logInUser({ email, password, setLoading })
+            : createUser({ email, password, setLoading });
         }}
         className="flex flex-col items-center"
       >
@@ -58,9 +59,14 @@ export default function AuthOverlayContent({
         />
         <div className="m-2" />
         {userHasAccount ? (
-          <IconButton icon="log in" isSubmit />
+          <IconButton icon="log in" isSubmit loading={loading} />
         ) : (
-          <IconButton icon="confirm" isSubmit />
+          <IconButton
+            icon="add"
+            isSubmit
+            title="create account"
+            loading={loading}
+          />
         )}
       </form>
 
