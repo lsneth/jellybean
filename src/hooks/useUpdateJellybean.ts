@@ -1,6 +1,14 @@
 import { useSupabase } from './useSupabase';
 
-export default function useUpdateJellybean(fetchJellybeans: () => void) {
+export default function useUpdateJellybean(fetchJellybeans: () => void): {
+  updateJellybean: ({
+    flavor,
+    id,
+  }: {
+    flavor: string;
+    id: string;
+  }) => Promise<void>;
+} {
   const { supabase } = useSupabase();
 
   async function updateJellybean({
@@ -9,7 +17,7 @@ export default function useUpdateJellybean(fetchJellybeans: () => void) {
   }: {
     flavor: string;
     id: string;
-  }) {
+  }): Promise<void> {
     const { error } = await supabase
       .from('jellybeans')
       .update({ flavor })

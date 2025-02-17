@@ -1,4 +1,4 @@
-import { createClient } from '@supabase/supabase-js';
+import { createClient, SupabaseClient } from '@supabase/supabase-js';
 import { useEffect, useState } from 'react';
 
 const supabaseUrl = 'https://lbfcegnaffgqvbllwimf.supabase.co';
@@ -7,7 +7,25 @@ const supabaseAnonKey =
 
 const supabase = createClient(supabaseUrl, supabaseAnonKey);
 
-export function useSupabase() {
+export function useSupabase(): {
+  supabase: SupabaseClient<any, 'public', any>;
+  createUser: ({
+    email,
+    password,
+  }: {
+    email: string;
+    password: string;
+  }) => Promise<void>;
+  logInUser: ({
+    email,
+    password,
+  }: {
+    email: string;
+    password: string;
+  }) => Promise<void>;
+  logOutUser: () => Promise<void>;
+  authenticated: boolean;
+} {
   const [authenticated, setAuthenticated] = useState<boolean>(false);
 
   useEffect(() => {
@@ -32,7 +50,7 @@ export function useSupabase() {
   }: {
     email: string;
     password: string;
-  }) {
+  }): Promise<void> {
     const { error } = await supabase.auth.signUp({
       email,
       password,
@@ -51,7 +69,7 @@ export function useSupabase() {
   }: {
     email: string;
     password: string;
-  }) {
+  }): Promise<void> {
     const { error } = await supabase.auth.signInWithPassword({
       email,
       password,
@@ -64,7 +82,7 @@ export function useSupabase() {
     }
   }
 
-  async function logOutUser() {
+  async function logOutUser(): Promise<void> {
     const { error } = await supabase.auth.signOut();
 
     if (error) {

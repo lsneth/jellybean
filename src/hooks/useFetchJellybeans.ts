@@ -13,10 +13,12 @@ export default function useFetchJellybeans({
   setJellybeans,
   sort,
   ascending,
-}: PropTypes) {
+}: PropTypes): {
+  fetchJellybeans: () => Promise<void>;
+} {
   const { supabase } = useSupabase();
 
-  async function fetchJellybeans() {
+  async function fetchJellybeans(): Promise<void> {
     const {
       data,
       error,

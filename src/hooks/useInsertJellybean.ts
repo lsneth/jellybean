@@ -1,9 +1,11 @@
 import { useSupabase } from './useSupabase';
 
-export default function useInsertJellybean(fetchJellybeans: () => void) {
+export default function useInsertJellybean(fetchJellybeans: () => void): {
+  insertJellybean: (flavor: string) => Promise<void>;
+} {
   const { supabase } = useSupabase();
 
-  async function insertJellybean(flavor: string) {
+  async function insertJellybean(flavor: string): Promise<void> {
     const { error } = await supabase.from('jellybeans').insert({ flavor });
 
     if (error) {
