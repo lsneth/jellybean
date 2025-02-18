@@ -2,6 +2,9 @@ import { useState } from 'react';
 import useInsertJellybean from '../hooks/useInsertJellybean';
 import IconButton from './IconButton';
 import TextInput from './TextInput';
+import JellybeanIcon from './JellybeanIcon';
+import { JellybeanColor } from '../types';
+import { colors } from '../constants/colors';
 
 type PropTypes = {
   fetchJellybeans: () => Promise<void>;
@@ -21,6 +24,7 @@ export default function NewJellybeanForm({
     fetchJellybeans,
   });
   const [newJellybeanFlavor, setNewJellybeanFlavor] = useState<string>('');
+  const [currentColorIndex, setCurrentColorIndex] = useState<number>(0);
 
   return addingOrEditing === 'adding' ? (
     <form
@@ -32,27 +36,35 @@ export default function NewJellybeanForm({
         }
         insertJellybean({
           flavor: newJellybeanFlavor,
+          color: colors[currentColorIndex % colors.length],
           setLoading,
           callback: () => setAddingOrEditing(undefined),
         });
         setNewJellybeanFlavor('');
       }}
-      className="flex justify-center"
+      className="flex justify-center gap-2"
     >
+      <JellybeanIcon
+        color={colors[currentColorIndex % colors.length]}
+        editing
+        incrementColor={() => setCurrentColorIndex((prev) => prev + 1)}
+      />
       <TextInput
         value={newJellybeanFlavor}
         onChange={(e) => setNewJellybeanFlavor(e.target.value)}
         placeholder="Enter a flavor"
       />
-      <IconButton isSubmit icon="confirm" accent loading={loading} />
-      <IconButton
-        onClick={() => {
-          setAddingOrEditing(undefined);
-          setNewJellybeanFlavor('');
-        }}
-        icon="close"
-        title="cancel"
-      />
+      <div>
+        <IconButton isSubmit icon="confirm" accent loading={loading} />
+        <IconButton
+          onClick={() => {
+            setAddingOrEditing(undefined);
+            setNewJellybeanFlavor('');
+          }}
+          icon="close"
+          title="cancel"
+        />
+      </div>
     </form>
   ) : (
     <IconButton

@@ -3,6 +3,7 @@ import { Jellybean as JellybeanType } from '../types';
 import UpdateJellybeanForm from './UpdateJellybeanForm';
 import JellybeanControls from './JellybeanControls';
 import JellybeanIcon from './JellybeanIcon';
+import { colors } from '../constants/colors';
 
 type PropTypes = {
   jellybean: JellybeanType;
@@ -13,17 +14,6 @@ type PropTypes = {
   >;
   isLast: boolean;
 };
-
-const colors = [
-  '#F67408',
-  '#C434A0',
-  '#D81A22',
-  '#FD95BB',
-  '#B1DF3A',
-  '#F8DA36',
-  '#1B8CE3',
-  '#410083',
-] as const;
 
 export default function JellybeanCard({
   jellybean,

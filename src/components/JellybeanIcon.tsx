@@ -15,6 +15,7 @@ export default function JellybeanIcon({
     <button
       className={`w-10 h-10 ${editing ? 'cursor-pointer' : ''}`}
       onClick={editing ? () => incrementColor() : () => {}}
+      type="button" // if this isn't here, it defaults to submit which causes problems in the NewJellyBeanForm component
     >
       <svg
         version="1.1"
