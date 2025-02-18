@@ -1,3 +1,4 @@
+import { JellybeanColor } from '../types';
 import { useSupabase } from './useSupabase';
 
 type PropTypes = {
@@ -9,15 +10,19 @@ export default function useInsertJellybean({ fetchJellybeans }: PropTypes) {
 
   async function insertJellybean({
     flavor,
+    color,
     setLoading,
     callback,
   }: {
     flavor: string;
+    color: JellybeanColor;
     setLoading: React.Dispatch<React.SetStateAction<boolean>>;
     callback: () => void;
   }) {
     setLoading(true);
-    const { error } = await supabase.from('jellybeans').insert({ flavor });
+    const { error } = await supabase
+      .from('jellybeans')
+      .insert({ flavor, color });
 
     if (error) {
       console.error(`Error inserting jellybean: ${error.message}`);

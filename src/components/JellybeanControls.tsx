@@ -20,7 +20,7 @@ export default function JellybeanControls({
   });
 
   return (
-    <div className="flex justify-between items-center gap-2">
+    <div className="flex justify-between items-center gap-2 w-full">
       <p className="truncate">{jellybean.flavor}</p>
       <div className="shrink-0">
         <IconButton onClick={enderEditMode} icon="edit" />
