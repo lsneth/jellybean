@@ -63,7 +63,10 @@ function App() {
         </div>
         <div>
           <img src={'./logo.png'} className="max-w-24 sm:max-w-36 mx-auto" />
-          <h1 className="text-center text-5xl mb-10 mt-5">jellybean</h1>
+          <img
+            src={'./jellybean.png'}
+            className="max-w-48 sm:max-w-64 mx-auto mt-3"
+          />
         </div>
         <div className="flex flex-wrap justify-end">
           <IconButton icon="help" onClick={() => setShowOverlay('help')} />
