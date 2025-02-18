@@ -18,7 +18,7 @@ export default function TextInput({
       type={type}
       value={value}
       onChange={onChange}
-      className="border border-neutral-50 rounded-lg px-3 bg-neutral-900 my-1 mr-1"
+      className="border border-neutral-50 rounded-lg px-3 bg-neutral-900 my-1 mr-1 h-11 sm:h-10"
       autoFocus={autofocus}
       placeholder={placeholder}
     />
