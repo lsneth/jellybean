@@ -45,6 +45,14 @@ export default function NewJellybeanForm({
         placeholder="Enter a flavor"
       />
       <IconButton isSubmit icon="confirm" accent loading={loading} />
+      <IconButton
+        onClick={() => {
+          setAddingOrEditing(undefined);
+          setNewJellybeanFlavor('');
+        }}
+        icon="close"
+        title="cancel"
+      />
     </form>
   ) : (
     <IconButton
