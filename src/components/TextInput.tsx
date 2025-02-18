@@ -1,9 +1,12 @@
+import { useRef } from 'react';
+
 type PropTypes = {
   value: string;
   onChange: (e: React.ChangeEvent<HTMLInputElement>) => void;
   type?: 'text' | 'password' | 'username';
   autofocus?: boolean;
   placeholder?: string;
+  squeeze?: boolean;
 };
 
 export default function TextInput({
@@ -12,15 +15,28 @@ export default function TextInput({
   type = 'text',
   autofocus = true,
   placeholder = '',
+  squeeze = false,
 }: PropTypes) {
+  const inputRef = useRef<HTMLInputElement>(null);
+
+  const handleFocus = () => {
+    setTimeout(() => {
+      inputRef.current?.scrollIntoView({ behavior: 'smooth', block: 'center' });
+    }, 100);
+  };
+
   return (
     <input
       type={type}
       value={value}
       onChange={onChange}
-      className="border border-neutral-50 rounded-lg px-3 bg-neutral-900 my-1 mr-1 w-47 sm:w-auto h-11 sm:h-10"
+      className={`border border-neutral-50 rounded-lg px-3 bg-neutral-900 my-1 mr-1 ${
+        squeeze ? 'w-44 max-[375px]:w-auto' : ''
+      } h-11 sm:h-10`}
       autoFocus={autofocus}
       placeholder={placeholder}
+      onFocus={handleFocus}
+      ref={inputRef}
     />
   );
 }

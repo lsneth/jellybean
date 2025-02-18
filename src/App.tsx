@@ -127,10 +127,14 @@ function App() {
 
             {authenticated ? (
               <div className="mt-10">
-                {jellybeans.length === 0 && addingOrEditing !== 'adding' ? (
-                  <p className="mb-6">
-                    Use the "+" button to add your first flavor
-                  </p>
+                {jellybeans.length === 0 ? (
+                  addingOrEditing ? (
+                    <p className="mb-6">
+                      Type a flavor and choose a jellybean color
+                    </p>
+                  ) : (
+                    <p className="mb-6">Use the "+" button to add a flavor</p>
+                  )
                 ) : (
                   <></>
                 )}

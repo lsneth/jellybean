@@ -80,8 +80,13 @@ export function useSupabase() {
     setLoading(false);
 
     if (error) {
-      console.error(`Error logging out: ${error.message}`);
-      alert(`Failed to log out: ${error.message}`);
+      if (error.status === 400) {
+        localStorage.removeItem('sb-lbfcegnaffgqvbllwimf-auth-token');
+        setAuthenticated(false);
+      } else {
+        console.error(`Error logging out: ${error.message}`);
+        alert(`Failed to log out: ${error.message}`);
+      }
       return;
     }
   }

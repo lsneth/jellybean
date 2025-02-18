@@ -52,6 +52,7 @@ export default function NewJellybeanForm({
         value={newJellybeanFlavor}
         onChange={(e) => setNewJellybeanFlavor(e.target.value)}
         placeholder="Enter a flavor"
+        squeeze
       />
       <div>
         <IconButton isSubmit icon="confirm" accent loading={loading} />
