@@ -41,7 +41,7 @@ export default function NewJellybeanForm({
         });
         setNewJellybeanFlavor('');
       }}
-      className="flex justify-center items-center gap-2 flex-wrap"
+      className="flex justify-center items-center gap-2"
     >
       <JellybeanIcon
         color={colors[currentColorIndex % colors.length]}

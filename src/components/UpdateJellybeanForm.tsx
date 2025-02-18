@@ -43,7 +43,7 @@ export default function UpdateJellybeanForm({
           callback: resetEditing,
         });
       }}
-      className="flex justify-between w-full"
+      className="flex justify-between w-full items-center"
     >
       <TextInput
         value={newJellybeanFlavor}
