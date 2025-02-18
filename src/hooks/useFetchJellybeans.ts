@@ -1,10 +1,9 @@
 import { PostgrestError } from '@supabase/supabase-js';
 import { useSupabase } from './useSupabase';
-
-type Jellybean = { id: string; flavor: string };
+import { Jellybean } from '../types';
 
 type PropTypes = {
-  setJellybeans: (data: Jellybean[]) => void;
+  setJellybeans: React.Dispatch<React.SetStateAction<Jellybean[]>>;
   sort: 'flavor' | 'created_time';
   ascending: boolean;
 };

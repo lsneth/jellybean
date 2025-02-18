@@ -2,6 +2,7 @@ import { useState } from 'react';
 import { Jellybean as JellybeanType } from '../types';
 import UpdateJellybeanForm from './UpdateJellybeanForm';
 import JellybeanControls from './JellybeanControls';
+import JellybeanIcon from './JellybeanIcon';
 
 type PropTypes = {
   jellybean: JellybeanType;
@@ -25,8 +26,11 @@ export default function JellybeanCard({
 
   return (
     <div
-      className={`${!isLast ? 'border-b' : ''} border-neutral-50 py-5 sm:px-5`}
+      className={`${
+        !isLast ? 'border-b' : ''
+      } border-neutral-50 py-5 sm:px-5 flex gap-3 items-center`}
     >
+      <JellybeanIcon color={jellybean.color} />
       {jellybean.id === editingJellybeanId && addingOrEditing === 'editing' ? (
         <UpdateJellybeanForm
           fetchJellybeans={fetchJellybeans}
