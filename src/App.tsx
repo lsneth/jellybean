@@ -127,7 +127,7 @@ function App() {
 
             {authenticated ? (
               <div className="mt-10">
-                {jellybeans.length === 0 ? (
+                {jellybeans.length === 0 && addingOrEditing !== 'adding' ? (
                   <p className="mb-6">
                     Use the "+" button to add your first flavor
                   </p>
