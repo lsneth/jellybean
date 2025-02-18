@@ -2,11 +2,13 @@ import useUpdateJellybean from '../hooks/useUpdateJellybean';
 import TextInput from './TextInput';
 import IconButton from './IconButton';
 import { useState } from 'react';
+import { JellybeanColor } from '../types';
 
 type PropTypes = {
   fetchJellybeans: () => Promise<void>;
   jellybeanId: string;
   newJellybeanFlavor: string;
+  newJellybeanColor: JellybeanColor;
   setNewJellybeanFlavor: React.Dispatch<React.SetStateAction<string>>;
   resetEditing: () => void;
 };
@@ -15,6 +17,7 @@ export default function UpdateJellybeanForm({
   fetchJellybeans,
   jellybeanId,
   newJellybeanFlavor,
+  newJellybeanColor,
   setNewJellybeanFlavor,
   resetEditing,
 }: PropTypes) {
@@ -35,6 +38,7 @@ export default function UpdateJellybeanForm({
         updateJellybean({
           flavor: newJellybeanFlavor,
           id: jellybeanId,
+          color: newJellybeanColor,
           setLoading,
           callback: resetEditing,
         });

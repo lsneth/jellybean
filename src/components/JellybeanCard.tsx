@@ -14,6 +14,17 @@ type PropTypes = {
   isLast: boolean;
 };
 
+const colors = [
+  '#F67408',
+  '#C434A0',
+  '#D81A22',
+  '#FD95BB',
+  '#B1DF3A',
+  '#F8DA36',
+  '#1B8CE3',
+  '#410083',
+] as const;
+
 export default function JellybeanCard({
   jellybean,
   fetchJellybeans,
@@ -23,6 +34,9 @@ export default function JellybeanCard({
 }: PropTypes) {
   const [newJellybeanFlavor, setNewJellybeanFlavor] = useState<string>('');
   const [editingJellybeanId, setEditingJellybeanId] = useState<string>('');
+  const [currentColorIndex, setCurrentColorIndex] = useState<number>(
+    colors.indexOf(jellybean.color)
+  );
 
   return (
     <div
@@ -30,12 +44,17 @@ export default function JellybeanCard({
         !isLast ? 'border-b' : ''
       } border-neutral-50 py-5 sm:px-5 flex gap-3 items-center`}
     >
-      <JellybeanIcon color={jellybean.color} />
+      <JellybeanIcon
+        color={colors[currentColorIndex % colors.length]}
+        editing={!!editingJellybeanId}
+        incrementColor={() => setCurrentColorIndex((prev) => prev + 1)}
+      />
       {jellybean.id === editingJellybeanId && addingOrEditing === 'editing' ? (
         <UpdateJellybeanForm
           fetchJellybeans={fetchJellybeans}
           jellybeanId={jellybean.id}
           newJellybeanFlavor={newJellybeanFlavor}
+          newJellybeanColor={colors[currentColorIndex % colors.length]}
           setNewJellybeanFlavor={setNewJellybeanFlavor}
           resetEditing={() => {
             setAddingOrEditing(undefined);
