@@ -3,7 +3,6 @@ import useInsertJellybean from '../hooks/useInsertJellybean';
 import IconButton from './IconButton';
 import TextInput from './TextInput';
 import JellybeanIcon from './JellybeanIcon';
-import { JellybeanColor } from '../types';
 import { colors } from '../constants/colors';
 
 type PropTypes = {
