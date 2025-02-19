@@ -12,7 +12,7 @@ export default function Overlay({ showOverlay, closeOverlay }: PropTypes) {
   const [userHasAccount, setUserHasAccount] = useState<boolean>(false);
 
   return (
-    //   opaque overlay bg
+    // opaque overlay bg
     <div className="bg-neutral-800/90 absolute inset-0 z-10 flex items-center justify-center">
       {/* overlay window */}
       <div className="bg-neutral-900 w-md z-20 rounded-lg p-4 m-4">

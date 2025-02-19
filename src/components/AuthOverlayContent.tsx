@@ -19,7 +19,7 @@ export default function AuthOverlayContent({
   const [loading, setLoading] = useState<boolean>(false);
   const { createUser, logInUser, authenticated } = useSupabase();
 
-  // not usually a great use of useEffect, but in this case I thiiink it's justified.
+  // not usually a great use of useEffect, but in this case I thiiink it's justified
   // because we're waiting on the response from supabase that the authentication succeeded (on log in or create account)
   useEffect(() => {
     if (authenticated) {

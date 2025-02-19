@@ -15,9 +15,7 @@ export default function JellybeanControls({
   enderEditMode,
 }: PropTypes) {
   const [loading, setLoading] = useState<boolean>(false);
-  const { deleteJellybean } = useDeleteJellybean({
-    fetchJellybeans,
-  });
+  const { deleteJellybean } = useDeleteJellybean({ fetchJellybeans });
 
   return (
     <div className="flex justify-between items-center gap-2 w-full">

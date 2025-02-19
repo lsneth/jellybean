@@ -17,6 +17,7 @@ export default function JellybeanIcon({
       onClick={editing ? () => incrementColor() : () => {}}
       type="button" // if this isn't here, it defaults to submit which causes problems in the NewJellyBeanForm component
     >
+      {/* https://www.svgrepo.com/svg/156728/jelly-beans */}
       <svg
         version="1.1"
         id="Capa_1"

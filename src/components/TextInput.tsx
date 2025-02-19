@@ -15,10 +15,10 @@ export default function TextInput({
   type = 'text',
   autofocus = true,
   placeholder = '',
-  squeeze = false,
+  squeeze = false, // for mobile widths to shrink the width a bit when necessary
 }: PropTypes) {
+  // this prevents the keyboard from covering the text input on mobile devices, courtesy of ChatGPT haha
   const inputRef = useRef<HTMLInputElement>(null);
-
   const handleFocus = () => {
     setTimeout(() => {
       inputRef.current?.scrollIntoView({ behavior: 'smooth', block: 'center' });

@@ -11,6 +11,7 @@ export function useSupabase() {
   const [authenticated, setAuthenticated] = useState<boolean>(false);
 
   useEffect(() => {
+    // subscribes to listen for authentication changes on initial render
     const { data } = supabase.auth.onAuthStateChange((event) => {
       if (event === 'SIGNED_IN') {
         setAuthenticated(true);
@@ -81,6 +82,9 @@ export function useSupabase() {
 
     if (error) {
       if (error.status === 400) {
+        // this is for the case that the user logs in from two different client types before the tokens expire
+        // logout in this state is unsupported by supabase
+        // to log out in this case, decided to just remove the auth token and set authenticated to false
         localStorage.removeItem('sb-lbfcegnaffgqvbllwimf-auth-token');
         setAuthenticated(false);
       } else {

@@ -23,6 +23,9 @@ function App() {
   );
   const [loading, setLoading] = useState<boolean>(false);
   const [logoutLoading, setLogoutLoading] = useState<boolean>(false);
+  const [addingOrEditing, setAddingOrEditing] = useState<
+    'adding' | 'editing' | undefined
+  >();
 
   const { authenticated, logOutUser } = useSupabase();
   const { fetchJellybeans } = useFetchJellybeans({
@@ -30,15 +33,14 @@ function App() {
     sort,
     ascending,
   });
-  const [addingOrEditing, setAddingOrEditing] = useState<
-    'adding' | 'editing' | undefined
-  >();
 
   useEffect(() => {
+    // fetch jellybeans on initial load and whenever sorting or authentication changes
     fetchJellybeans(setLoading);
   }, [ascending, sort, authenticated]);
 
   useEffect(() => {
+    // only show help dialogue on page load to probably new users
     if (!localStorage.getItem('returning_user')) {
       setShowOverlay('help');
       localStorage.setItem('returning_user', 'true');
@@ -56,32 +58,38 @@ function App() {
         <></>
       )}
 
-      <div className="flex justify-between w-full items-start p-5 pb-2">
-        <div>
-          <IconButton icon="placeholder" />
-          <IconButton icon="placeholder" />
+      <div className="w-full">
+        <div className="flex justify-between w-full p-5 pb-2">
+          <div>
+            {/* these buttons are only here to be placeholders to keep everything centered in the flex box */}
+            <IconButton icon="placeholder" />
+            <IconButton icon="placeholder" />
+          </div>
+
+          <img src={'./logo.png'} className="max-w-24 sm:max-w-36 mx-auto" />
+
+          <div className="">
+            <IconButton icon="help" onClick={() => setShowOverlay('help')} />
+            {authenticated ? (
+              <IconButton
+                icon="log out"
+                onClick={() => logOutUser({ setLoading: setLogoutLoading })}
+                loading={logoutLoading}
+              />
+            ) : (
+              <IconButton
+                icon="log in"
+                onClick={() => setShowOverlay('auth')}
+              />
+            )}
+          </div>
         </div>
 
-        <img src={'./logo.png'} className="max-w-24 sm:max-w-36 mx-auto" />
-
-        <div className="flex flex-wrap justify-end">
-          <IconButton icon="help" onClick={() => setShowOverlay('help')} />
-          {authenticated ? (
-            <IconButton
-              icon="log out"
-              onClick={() => logOutUser({ setLoading: setLogoutLoading })}
-              loading={logoutLoading}
-            />
-          ) : (
-            <IconButton icon="log in" onClick={() => setShowOverlay('auth')} />
-          )}
-        </div>
+        <img
+          src={'./jellybean.png'}
+          className="max-w-48 sm:max-w-64 mx-auto mb-10"
+        />
       </div>
-
-      <img
-        src={'./jellybean.png'}
-        className="max-w-48 sm:max-w-64 mx-auto mb-10"
-      />
 
       <div className="text-center flex flex-col w-full sm:w-xl px-5">
         {loading ? (
@@ -93,6 +101,7 @@ function App() {
           />
         ) : (
           <>
+            {/* only show sort options if there is more than 1 jellybean */}
             {jellybeans.length > 1 ? (
               <SortButtons
                 sort={sort}
@@ -121,13 +130,14 @@ function App() {
                 fetchJellybeans={fetchJellybeans}
                 addingOrEditing={addingOrEditing}
                 setAddingOrEditing={setAddingOrEditing}
-                isLast={i === jellybeans.length - 1}
+                isLast={i === jellybeans.length - 1} // don't render a line below the last item
                 key={jellybean.id}
               />
             ))}
 
             {authenticated ? (
               <div className="mt-10">
+                {/* helper instructions for when the jellybean array is empty */}
                 {jellybeans.length === 0 ? (
                   addingOrEditing ? (
                     <p className="mb-6">
@@ -153,7 +163,7 @@ function App() {
                 >
                   Log in
                 </button>
-                <p> to continue</p>
+                <p>to continue</p>
               </div>
             )}
           </>
