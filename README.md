@@ -11,3 +11,18 @@ The front end of _jellybean_ is built in [TypeScript](https://www.typescriptlang
 ## Back End
 
 The back end of _jellybean_ uses [supabase](https://supabase.com) for user authentication and database management, and the app is hosted on [netlify](https://www.netlify.com).
+
+## Strengths of _jellybean_
+
+- connected securely to a database protected by row level security and user authentication
+- loading states
+- saves sorting preferences and tracks first time visit in local storage
+- responsive design
+- tested by users, implemented feedback
+
+## How _jellybean_ Could Be Improved
+
+- accessibility
+- automated tests
+- performance
+- stricter linting rules
