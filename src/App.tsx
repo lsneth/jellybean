@@ -56,18 +56,14 @@ function App() {
         <></>
       )}
 
-      <div className="flex justify-between w-full items-start p-5">
+      <div className="flex justify-between w-full items-start p-5 pb-2">
         <div>
           <IconButton icon="placeholder" />
           <IconButton icon="placeholder" />
         </div>
-        <div>
-          <img src={'./logo.png'} className="max-w-24 sm:max-w-36 mx-auto" />
-          <img
-            src={'./jellybean.png'}
-            className="max-w-48 sm:max-w-64 mx-auto mt-3"
-          />
-        </div>
+
+        <img src={'./logo.png'} className="max-w-24 sm:max-w-36 mx-auto" />
+
         <div className="flex flex-wrap justify-end">
           <IconButton icon="help" onClick={() => setShowOverlay('help')} />
           {authenticated ? (
@@ -81,6 +77,11 @@ function App() {
           )}
         </div>
       </div>
+
+      <img
+        src={'./jellybean.png'}
+        className="max-w-48 sm:max-w-64 mx-auto mb-10"
+      />
 
       <div className="text-center flex flex-col w-full sm:w-xl px-5">
         {loading ? (
